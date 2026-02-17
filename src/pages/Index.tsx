@@ -60,12 +60,12 @@ const Index = () => {
       </section>
 
       {/* Our Story Section */}
-      <section id="story" style={{ backgroundColor: '#ffffff' }} className="py-20 px-6">
+      <section id="story" className="bg-cucina-dark py-20 px-6">
         <div className="max-w-3xl mx-auto">
-          <h2 className="font-serif text-5xl font-light tracking-wide mb-10" style={{ color: '#1a1a1a' }}>
+          <h2 className="font-serif text-5xl font-light tracking-wide mb-10 text-primary-foreground">
             OUR STORY
           </h2>
-          <div className="space-y-6 font-sans text-base leading-relaxed text-center" style={{ color: '#333333' }}>
+          <div className="space-y-6 font-sans text-base leading-relaxed text-center text-primary-foreground/85">
             <p>
               A neighborhood is more than a place. It's the people who gather there, the familiar faces, the feeling of comfort when you walk through the door. It's where stories are shared, meals linger, and time slows just enough.
             </p>
@@ -95,7 +95,7 @@ const Index = () => {
 
         {/* Handwritten sign-off */}
         <div className="max-w-3xl mx-auto mt-12">
-          <p className="font-script text-4xl" style={{ color: '#333333' }}>
+          <p className="font-script text-4xl text-primary-foreground/85">
             See you in<br />San Anselmo
           </p>
         </div>
