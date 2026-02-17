@@ -104,16 +104,16 @@ const Index = () => {
       {/* Footer */}
       <footer id="contact" className="relative text-primary-foreground" style={{ isolation: 'isolate' }}>
         {/* Wood oven image as background */}
-        <div className="relative w-full min-h-[400px]">
+        <div className="relative w-full aspect-[16/10]">
           <img
             src={woodOven}
             alt="Wood-fired oven"
-            className="absolute inset-0 w-full h-full object-cover object-center"
+            className="absolute inset-0 w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-cucina-dark/50" />
+          <div className="absolute inset-0 bg-cucina-dark/40" />
 
           {/* Content overlaid */}
-          <div className="relative z-10 px-8 py-12">
+          <div className="absolute inset-0 z-10 px-8 py-10">
             <div className="flex flex-col md:flex-row items-start justify-between max-w-6xl mx-auto">
               {/* Left: Reservations + Logo */}
               <div className="flex flex-col items-start">
@@ -125,7 +125,7 @@ const Index = () => {
                 >
                   Reservations
                 </a>
-                <img src={cucinaLogo} alt="Cucina" className="w-[350px] max-w-[50vw] mix-blend-screen" />
+                <span className="text-7xl md:text-8xl font-bold tracking-[0.15em] uppercase text-primary-foreground" style={{ fontFamily: "'Courier New', monospace", fontWeight: 900, letterSpacing: '0.12em' }}>cucina</span>
               </div>
 
               {/* Right: Contact Info */}
