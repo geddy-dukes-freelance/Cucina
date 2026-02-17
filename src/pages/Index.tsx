@@ -102,46 +102,48 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer id="contact" className="relative bg-cucina-dark text-primary-foreground" style={{ isolation: 'isolate' }}>
-        <div className="px-8 py-12">
-          <div className="flex flex-col md:flex-row items-start justify-between max-w-6xl mx-auto">
-            {/* Left: Reservations + Logo */}
-            <div className="flex flex-col items-start">
-              <a
-                href={RESERVATIONS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="border border-primary-foreground/60 rounded-full px-6 py-2 text-sm font-sans tracking-wide hover:bg-primary-foreground/10 transition-colors mb-6"
-              >
-                Reservations
-              </a>
-              <img src={cucinaLogo} alt="Cucina" className="w-[350px] max-w-[50vw] mix-blend-screen" />
-            </div>
-
-            {/* Right: Contact Info */}
-            <div className="mt-8 md:mt-8 text-right">
-              <p className="text-xs font-sans tracking-wider uppercase mb-1 text-primary-foreground/60">&gt; Phone</p>
-              <p className="text-2xl font-serif mb-6">415.454.2942</p>
-              <p className="text-xs font-sans tracking-wider uppercase mb-1 text-primary-foreground/60">&gt; Instagram</p>
-              <a
-                href="https://instagram.com/cucinasa"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-2xl font-serif hover:opacity-70 transition-opacity"
-              >
-                @cucinasa
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Wood oven image at bottom */}
-        <div className="w-full h-[300px] overflow-hidden">
+      <footer id="contact" className="relative text-primary-foreground" style={{ isolation: 'isolate' }}>
+        {/* Wood oven image as background */}
+        <div className="relative w-full min-h-[400px]">
           <img
             src={woodOven}
             alt="Wood-fired oven"
-            className="w-full h-full object-cover object-center"
+            className="absolute inset-0 w-full h-full object-cover object-center"
           />
+          <div className="absolute inset-0 bg-cucina-dark/50" />
+
+          {/* Content overlaid */}
+          <div className="relative z-10 px-8 py-12">
+            <div className="flex flex-col md:flex-row items-start justify-between max-w-6xl mx-auto">
+              {/* Left: Reservations + Logo */}
+              <div className="flex flex-col items-start">
+                <a
+                  href={RESERVATIONS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="border border-primary-foreground/60 rounded-full px-6 py-2 text-sm font-sans tracking-wide hover:bg-primary-foreground/10 transition-colors mb-6"
+                >
+                  Reservations
+                </a>
+                <img src={cucinaLogo} alt="Cucina" className="w-[350px] max-w-[50vw] mix-blend-screen" />
+              </div>
+
+              {/* Right: Contact Info */}
+              <div className="mt-8 md:mt-8 text-right">
+                <p className="text-xs font-sans tracking-wider uppercase mb-1 text-primary-foreground/60">&gt; Phone</p>
+                <p className="text-2xl font-serif mb-6">415.454.2942</p>
+                <p className="text-xs font-sans tracking-wider uppercase mb-1 text-primary-foreground/60">&gt; Instagram</p>
+                <a
+                  href="https://instagram.com/cucinasa"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-2xl font-serif hover:opacity-70 transition-opacity"
+                >
+                  @cucinasa
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </footer>
     </div>
