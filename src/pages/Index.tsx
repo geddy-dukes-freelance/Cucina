@@ -4,10 +4,9 @@ import foodPizza from "@/assets/food-pizza.jpg";
 import foodBrussels from "@/assets/food-brussels.jpg";
 import foodCocktail from "@/assets/food-cocktail.jpg";
 import woodOven from "@/assets/wood-oven.jpg";
+import SiteNav from "@/components/SiteNav";
 
 const RESERVATIONS_URL = "https://resy.com/cities/san-anselmo-ca/venues/cucina-sa?date=2020-08-10&seats=2";
-const ORDER_ONLINE_URL = "https://order.toasttab.com/online/cucina-sa";
-const GIFT_CARDS_URL = "https://order.toasttab.com/egiftcards/cucina-sa";
 
 const Index = () => {
   const scrollToStory = () => {
@@ -27,26 +26,7 @@ const Index = () => {
         <div className="absolute inset-0 bg-cucina-dark/30" />
 
         {/* Navigation */}
-        <nav className="absolute top-0 left-0 w-full z-20 flex justify-end items-center px-8 py-6 gap-8">
-          {[
-            { label: "Home", href: "#" },
-            { label: "Menu", href: "#" },
-            { label: "Reservations", href: RESERVATIONS_URL },
-            { label: "Order Online", href: ORDER_ONLINE_URL },
-            { label: "Gift Cards", href: GIFT_CARDS_URL },
-            { label: "Contact Us", href: "#contact" },
-          ].map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              target={item.href.startsWith("http") ? "_blank" : undefined}
-              rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-              className="text-black font-sans text-lg tracking-wide hover:opacity-70 hover:text-white transition-opacity italic"
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
+        <SiteNav variant="overlay" />
 
         {/* Logo centered */}
         <div className="absolute inset-0 flex items-center justify-center">
