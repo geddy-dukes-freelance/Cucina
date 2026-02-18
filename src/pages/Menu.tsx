@@ -82,7 +82,7 @@ const MenuPage = () => {
       <SiteNav variant="solid" />
 
       {/* Menu Tab Bar */}
-      <div className="bg-cucina-dark border-t border-cucina-brown/30">
+      <div className="bg-background border-t border-border">
         <div className="max-w-5xl mx-auto flex justify-center gap-2 md:gap-8 px-4 py-3">
           {TABS.map((tab) => (
             <button
@@ -90,8 +90,8 @@ const MenuPage = () => {
               onClick={() => setActiveTab(tab.key)}
               className={`font-sans text-sm md:text-base tracking-wide px-4 py-2 transition-all rounded-sm ${
                 activeTab === tab.key
-                  ? "text-accent-foreground bg-accent font-bold"
-                  : "text-primary-foreground/70 hover:text-primary-foreground"
+                  ? "text-cucina-dark font-bold border-b-2 border-cucina-dark"
+                  : "text-muted-foreground hover:text-foreground"
               }`}
             >
               {tab.label}

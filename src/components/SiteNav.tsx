@@ -41,7 +41,7 @@ const SiteNav = ({ variant = "overlay" }: SiteNavProps) => {
       )}
 
       {/* Desktop Nav */}
-      <div className={`hidden md:flex ${variant === "overlay" ? "ml-auto" : ""} items-center gap-8`}>
+      <div className={`hidden md:flex ${variant === "overlay" ? "ml-auto" : ""} items-center gap-6`}>
         {NAV_ITEMS.map((item) =>
           isExternal(item.href) ? (
             <a
@@ -49,7 +49,7 @@ const SiteNav = ({ variant = "overlay" }: SiteNavProps) => {
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
-              className={`${textClass} font-sans text-lg tracking-wide hover:opacity-70 transition-opacity italic`}
+              className={`${textClass} font-sans text-sm tracking-wide hover:opacity-70 transition-opacity italic`}
             >
               {item.label}
             </a>
@@ -57,7 +57,7 @@ const SiteNav = ({ variant = "overlay" }: SiteNavProps) => {
             <a
               key={item.label}
               href={item.href}
-              className={`${textClass} font-sans text-lg tracking-wide hover:opacity-70 transition-opacity italic`}
+              className={`${textClass} font-sans text-sm tracking-wide hover:opacity-70 transition-opacity italic`}
             >
               {item.label}
             </a>
@@ -65,7 +65,7 @@ const SiteNav = ({ variant = "overlay" }: SiteNavProps) => {
             <Link
               key={item.label}
               to={item.href}
-              className={`${textClass} font-sans text-lg tracking-wide hover:opacity-70 transition-opacity italic ${location.pathname === item.href ? "font-bold" : ""}`}
+              className={`${textClass} font-sans text-sm tracking-wide hover:opacity-70 transition-opacity italic ${location.pathname === item.href ? "font-bold" : ""}`}
             >
               {item.label}
             </Link>
