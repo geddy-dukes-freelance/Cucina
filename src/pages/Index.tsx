@@ -17,18 +17,16 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-screen min-h-[600px]" style={{ isolation: 'isolate' }}>
-        <div className="absolute inset-0">
-          <img
-            src={heroPasta}
-            alt="Cucina SA signature pasta dish"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-cucina-dark/30" />
-        </div>
+      <section className="relative w-full" style={{ isolation: 'isolate' }}>
+        <img
+          src={heroPasta}
+          alt="Cucina SA signature pasta dish"
+          className="w-full h-auto block"
+        />
+        <div className="absolute inset-0 bg-cucina-dark/30" />
 
         {/* Navigation */}
-        <nav className="relative z-20 flex justify-end items-center px-8 py-6 gap-8">
+        <nav className="absolute top-0 left-0 w-full z-20 flex justify-end items-center px-8 py-6 gap-8">
           {[
             { label: "Home", href: "#" },
             { label: "Menu", href: "#" },
@@ -102,46 +100,51 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer id="contact" className="relative text-primary-foreground" style={{ isolation: 'isolate' }}>
+      <footer id="contact" className="relative w-full aspect-[13/9]">
         {/* Wood oven image as background */}
-        <div className="relative w-full aspect-[16/10]">
-          <img
-            src={woodOven}
-            alt="Wood-fired oven"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-cucina-dark/40" />
+        <img
+          src={woodOven}
+          alt="Wood-fired oven"
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ objectPosition: "50% 70%" }}
+        />
+        <div className="absolute inset-0 bg-black/20" />
 
-          {/* Content overlaid */}
-          <div className="absolute inset-0 z-10 px-8 py-10">
-            <div className="flex flex-col md:flex-row items-start justify-between max-w-6xl mx-auto">
-              {/* Left: Reservations + Logo */}
-              <div className="flex flex-col items-start">
-                <a
-                  href={RESERVATIONS_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="border border-primary-foreground/60 rounded-full px-6 py-2 text-sm font-sans tracking-wide hover:bg-primary-foreground/10 transition-colors mb-6"
-                >
-                  Reservations
-                </a>
-                <span className="text-7xl md:text-8xl font-bold tracking-[0.15em] uppercase text-primary-foreground" style={{ fontFamily: "'Courier New', monospace", fontWeight: 900, letterSpacing: '0.12em' }}>cucina</span>
-              </div>
+        {/* Content Layer */}
+        <div className="absolute inset-0 p-6 md:p-12 lg:p-16">
+          <div className="flex justify-between items-start w-full h-full">
+            {/* Left Column: Reservations + Logo */}
+            <div className="flex flex-col items-start gap-4 md:gap-8">
+              <a
+                href={RESERVATIONS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border border-white/90 text-white rounded-full px-6 py-2 md:px-8 md:py-3 text-sm md:text-lg font-sans tracking-wide hover:bg-white/10 transition-colors uppercase"
+              >
+                Reservations
+              </a>
 
-              {/* Right: Contact Info */}
-              <div className="mt-8 md:mt-8 text-right">
-                <p className="text-xs font-sans tracking-wider uppercase mb-1 text-primary-foreground/60">&gt; Phone</p>
-                <p className="text-2xl font-serif mb-6">415.454.2942</p>
-                <p className="text-xs font-sans tracking-wider uppercase mb-1 text-primary-foreground/60">&gt; Instagram</p>
-                <a
-                  href="https://instagram.com/cucinasa"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-2xl font-serif hover:opacity-70 transition-opacity"
-                >
-                  @cucinasa
-                </a>
-              </div>
+              <img
+                src={cucinaLogo}
+                alt="Cucina"
+                className="w-[200px] md:w-[400px] lg:w-[500px] max-w-[50vw] mix-blend-screen contrast-150"
+              />
+            </div>
+
+            {/* Right Column: Contact Info - Aligned Left Text */}
+            <div className="flex flex-col items-start text-left text-white mt-1 md:mt-2">
+              <p className="text-[10px] md:text-xs font-sans tracking-[0.2em] uppercase mb-1 md:mb-2 text-white/80">&gt; Phone</p>
+              <p className="text-xl md:text-3xl lg:text-4xl font-serif mb-4 md:mb-8 tracking-wide">415.454.2942</p>
+
+              <p className="text-[10px] md:text-xs font-sans tracking-[0.2em] uppercase mb-1 md:mb-2 text-white/80">&gt; Instagram</p>
+              <a
+                href="https://instagram.com/cucinasa"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xl md:text-3xl lg:text-4xl font-serif hover:opacity-80 transition-opacity tracking-wide block"
+              >
+                @cucinasa
+              </a>
             </div>
           </div>
         </div>
