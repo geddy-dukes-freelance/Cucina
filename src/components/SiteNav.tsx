@@ -32,7 +32,7 @@ const SiteNav = ({ variant = "overlay" }: SiteNavProps) => {
   const textClass = variant === "solid" ? "text-primary-foreground" : "text-black";
 
   return (
-    <nav className={`${variant === "overlay" ? "absolute top-0 left-0 z-20" : "relative z-20"} w-full flex justify-between items-center px-6 md:px-8 py-4 md:py-6 ${bgClass}`}>
+    <nav className={`${variant === "overlay" ? "absolute top-0 left-0 z-20" : "relative z-20"} w-full flex justify-between items-center px-6 md:px-8 py-3 md:py-4 ${bgClass}`}>
       {/* Logo - visible on solid nav */}
       {variant === "solid" && (
         <Link to="/">
