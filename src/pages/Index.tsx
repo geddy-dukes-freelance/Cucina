@@ -105,10 +105,15 @@ const Index = () => {
         <img
           src={woodOven}
           alt="Wood-fired oven"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover contrast-[1.25] sepia-[0.1] grayscale-[0.2] brightness-[1.1]"
           style={{ objectPosition: "50% 70%" }}
         />
-        <div className="absolute inset-0 bg-black/20" />
+
+        {/* Grain & Vintage Effects */}
+        <div className="absolute inset-0 bg-white/20 mix-blend-screen pointer-events-none" />
+        <div className="absolute inset-0 bg-noise opacity-5=70 mix-blend-hard-light pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.3)_100%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none" />
 
         {/* Content Layer */}
         <div className="absolute inset-0 p-6 md:p-12 lg:p-16">
@@ -119,9 +124,9 @@ const Index = () => {
                 href={RESERVATIONS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="border border-white/90 text-white rounded-full px-6 py-2 md:px-8 md:py-3 text-sm md:text-lg font-sans tracking-wide hover:bg-white/10 transition-colors uppercase"
+                className="relative overflow-hidden group border border-white/80 text-white rounded-[50%] px-5 py-1.5 md:px-7 md:py-2 text-sm md:text-base font-sans tracking-wide hover:bg-white/10 transition-all duration-300 uppercase"
               >
-                Reservations
+                <span className="relative z-10">Reservations</span>
               </a>
 
               <img
