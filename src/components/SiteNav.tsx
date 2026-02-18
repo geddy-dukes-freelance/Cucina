@@ -36,7 +36,7 @@ const SiteNav = ({ variant = "overlay" }: SiteNavProps) => {
       {/* Logo - visible on solid nav */}
       {variant === "solid" && (
         <Link to="/">
-          <img src={cucinaLogo} alt="Cucina" className="h-8 md:h-10 mix-blend-screen" />
+          <img src={cucinaLogo} alt="Cucina" className="h-8 md:h-6 mix-blend-screen" />
         </Link>
       )}
 
