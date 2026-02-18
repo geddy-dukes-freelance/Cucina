@@ -17,11 +17,12 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative w-full" style={{ isolation: 'isolate' }}>
+      <section className="relative w-full aspect-[16/9]" style={{ isolation: 'isolate' }}>
         <img
           src={heroPasta}
           alt="Cucina SA signature pasta dish"
-          className="w-full h-auto block"
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ objectPosition: "50% 60%" }}
         />
         <div className="absolute inset-0 bg-cucina-dark/30" />
 
@@ -40,7 +41,7 @@ const Index = () => {
               href={item.href}
               target={item.href.startsWith("http") ? "_blank" : undefined}
               rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-              className="text-primary-foreground font-sans text-sm tracking-wide hover:opacity-70 transition-opacity italic"
+              className="text-black font-sans text-lg tracking-wide hover:opacity-70 hover:text-white transition-opacity italic"
             >
               {item.label}
             </a>
