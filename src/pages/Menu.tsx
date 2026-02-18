@@ -72,7 +72,7 @@ const MENUS: Record<TabKey, { title: string; data: MenuCategory[] }> = {
   happy: { title: "HAPPY HOUR MENU", data: HAPPY_HOUR_MENU },
 };
 
-const Menu = () => {
+const MenuPage = () => {
   const [activeTab, setActiveTab] = useState<TabKey>("dinner");
   const currentMenu = MENUS[activeTab];
 
@@ -179,4 +179,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default MenuPage;
