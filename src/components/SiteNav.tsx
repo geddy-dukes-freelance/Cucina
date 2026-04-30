@@ -4,7 +4,7 @@ import { Menu, X } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import cucinaLogo from "@/assets/cucina-logo.png";
 
-const RESERVATIONS_URL = "https://resy.com/cities/san-anselmo-ca/venues/cucina-sa?date=2020-08-10&seats=2";
+const RESERVATIONS_URL = "https://resy.com/cities/san-anselmo-ca/venues/cucina-sa?seats=2&date=2026-04-29";
 const ORDER_ONLINE_URL = "https://order.toasttab.com/online/cucina-sa";
 const GIFT_CARDS_URL = "https://order.toasttab.com/egiftcards/cucina-sa";
 
@@ -29,7 +29,7 @@ const SiteNav = ({ variant = "overlay" }: SiteNavProps) => {
   const isHash = (href: string) => href.startsWith("#");
 
   const bgClass = variant === "solid" ? "bg-cucina-dark" : "";
-  const textClass = variant === "solid" ? "text-primary-foreground" : "text-black";
+  const textClass = variant === "solid" ? "text-primary-foreground" : "text-white";
 
   return (
     <nav className={`${variant === "overlay" ? "absolute top-0 left-0 z-20" : "relative z-20"} w-full flex justify-between items-center px-6 md:px-8 py-3 md:py-4 ${bgClass}`}>
@@ -49,7 +49,7 @@ const SiteNav = ({ variant = "overlay" }: SiteNavProps) => {
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
-              className={`${textClass} font-sans text-sm tracking-wide hover:opacity-70 transition-opacity italic`}
+              className={`${textClass} font-nav text-base font-light tracking-wide hover:opacity-70 transition-opacity italic`}
             >
               {item.label}
             </a>
@@ -57,7 +57,7 @@ const SiteNav = ({ variant = "overlay" }: SiteNavProps) => {
             <a
               key={item.label}
               href={item.href}
-              className={`${textClass} font-sans text-sm tracking-wide hover:opacity-70 transition-opacity italic`}
+              className={`${textClass} font-nav text-base font-light tracking-wide hover:opacity-70 transition-opacity italic`}
             >
               {item.label}
             </a>
@@ -65,7 +65,7 @@ const SiteNav = ({ variant = "overlay" }: SiteNavProps) => {
             <Link
               key={item.label}
               to={item.href}
-              className={`${textClass} font-sans text-sm tracking-wide hover:opacity-70 transition-opacity italic ${location.pathname === item.href ? "font-bold" : ""}`}
+              className={`${textClass} font-nav text-base font-light tracking-wide hover:opacity-70 transition-opacity italic ${location.pathname === item.href ? "font-normal" : ""}`}
             >
               {item.label}
             </Link>
@@ -92,7 +92,7 @@ const SiteNav = ({ variant = "overlay" }: SiteNavProps) => {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setOpen(false)}
-                    className="text-primary-foreground font-sans text-xl tracking-wide hover:opacity-70 transition-opacity italic"
+                    className="text-primary-foreground font-nav text-2xl font-light tracking-wide hover:opacity-70 transition-opacity italic"
                   >
                     {item.label}
                   </a>
@@ -101,7 +101,7 @@ const SiteNav = ({ variant = "overlay" }: SiteNavProps) => {
                     key={item.label}
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    className="text-primary-foreground font-sans text-xl tracking-wide hover:opacity-70 transition-opacity italic"
+                    className="text-primary-foreground font-nav text-2xl font-light tracking-wide hover:opacity-70 transition-opacity italic"
                   >
                     {item.label}
                   </a>
@@ -110,7 +110,7 @@ const SiteNav = ({ variant = "overlay" }: SiteNavProps) => {
                     key={item.label}
                     to={item.href}
                     onClick={() => setOpen(false)}
-                    className={`text-primary-foreground font-sans text-xl tracking-wide hover:opacity-70 transition-opacity italic ${location.pathname === item.href ? "font-bold" : ""}`}
+                    className={`text-primary-foreground font-nav text-2xl font-light tracking-wide hover:opacity-70 transition-opacity italic ${location.pathname === item.href ? "font-normal" : ""}`}
                   >
                     {item.label}
                   </Link>

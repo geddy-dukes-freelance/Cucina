@@ -1,7 +1,7 @@
 import woodOven from "@/assets/wood-oven.jpg";
 import cucinaLogo from "@/assets/cucina-logo.png";
 
-const RESERVATIONS_URL = "https://resy.com/cities/san-anselmo-ca/venues/cucina-sa?date=2020-08-10&seats=2";
+const RESERVATIONS_URL = "https://resy.com/cities/san-anselmo-ca/venues/cucina-sa?seats=2&date=2026-04-29";
 
 const Footer = () => {
     return (
@@ -16,7 +16,7 @@ const Footer = () => {
 
             {/* Grain & Vintage Effects */}
             <div className="absolute inset-0 bg-white/20 mix-blend-screen pointer-events-none" />
-            <div className="absolute inset-0 bg-noise opacity-5=70 mix-blend-hard-light pointer-events-none" />
+            <div className="absolute inset-0 bg-noise opacity-[0.07] mix-blend-hard-light pointer-events-none" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.3)_100%)] pointer-events-none" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none" />
 
@@ -29,7 +29,7 @@ const Footer = () => {
                             href={RESERVATIONS_URL}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="relative overflow-hidden group border border-white/80 text-white rounded-[50%] px-5 py-1.5 md:px-7 md:py-2 text-sm md:text-base font-sans tracking-wide hover:bg-white/10 transition-all duration-300 uppercase"
+                            className="relative overflow-hidden group border border-white/80 text-white rounded-[50%] px-5 py-1.5 md:px-7 md:py-2 text-sm md:text-base font-body font-light tracking-wide hover:bg-white/10 transition-all duration-300"
                         >
                             <span className="relative z-10">Reservations</span>
                         </a>
@@ -44,7 +44,7 @@ const Footer = () => {
                     {/* Right Column: Contact Info - Aligned Left Text */}
                     <div className="flex flex-col items-start text-left text-white mt-1 md:mt-2">
                         <p className="text-[10px] md:text-xs font-sans tracking-[0.2em] uppercase mb-1 md:mb-2 text-white/80">&gt; Phone</p>
-                        <p className="text-xl md:text-3xl lg:text-4xl font-serif mb-4 md:mb-8 tracking-wide">415.454.2942</p>
+                        <p className="text-xl md:text-3xl lg:text-4xl font-serif mb-3 md:mb-5 tracking-wide">415.454.2942</p>
 
                         <p className="text-[10px] md:text-xs font-sans tracking-[0.2em] uppercase mb-1 md:mb-2 text-white/80">&gt; Instagram</p>
                         <a
