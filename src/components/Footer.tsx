@@ -1,5 +1,5 @@
 import woodOven from "@/assets/wood-oven.jpg";
-import cucinaLogo from "@/assets/cucina-logo.png";
+import cucinaLogo from "@/assets/cucina-logo-transparent.png";
 
 const RESERVATIONS_URL = "https://resy.com/cities/san-anselmo-ca/venues/cucina-sa?seats=2&date=2026-04-29";
 
@@ -37,7 +37,7 @@ const Footer = () => {
                         <img
                             src={cucinaLogo}
                             alt="Cucina"
-                            className="w-[200px] md:w-[400px] lg:w-[500px] max-w-[50vw] mix-blend-screen contrast-150"
+                            className="w-[200px] md:w-[400px] lg:w-[500px] max-w-[50vw] contrast-150"
                         />
                     </div>
 
