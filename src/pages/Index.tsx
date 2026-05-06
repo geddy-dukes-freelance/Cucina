@@ -1,4 +1,4 @@
-import cucinaLogo from "@/assets/cucina-logo.png";
+import cucinaLogo from "@/assets/cucina-logo-transparent.png";
 import cucinaHeroVideo from "@/assets/cucina-hero.mov";
 import cucinaStorefront from "@/assets/cucina-storefront.jpeg";
 import cucinaPasta from "@/assets/cucina-pasta.jpeg";
@@ -33,7 +33,7 @@ const Index = () => {
           <img
             src={cucinaLogo}
             alt="Cucina"
-            className="w-[500px] max-w-[70vw] drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] md:mix-blend-screen"
+            className="w-[500px] max-w-[70vw] drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)]"
           />
         </div>
       </section>
