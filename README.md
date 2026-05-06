@@ -1,4 +1,4 @@
 Website redesign project for Cucina SA
 
 
-Fixing weirdness
+Change to my primary email
