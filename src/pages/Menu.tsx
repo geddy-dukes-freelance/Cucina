@@ -1,15 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SiteNav from "@/components/SiteNav";
 import Footer from "@/components/Footer";
 import MenuCategoryList from "@/components/MenuCategoryList";
-import {
-  MenuCategory,
-  DINNER_MENU,
-  LUNCH_MENU,
-  HAPPY_HOUR_MENU
-} from "@/data/menus";
+import type { MenuCategory, MenuContent } from "@/types/content";
 
 const TABS = [
+  { key: "specials", label: "Specials" },
   { key: "dinner", label: "Dinner" },
   { key: "lunch", label: "Lunch & Brunch" },
   { key: "happy", label: "Happy Hour" },
@@ -17,15 +13,41 @@ const TABS = [
 
 type TabKey = typeof TABS[number]["key"];
 
-const MENUS: Record<TabKey, { title: string; data: MenuCategory[] }> = {
-  dinner: { title: "DINNER MENU", data: DINNER_MENU },
-  lunch: { title: "LUNCH & BRUNCH MENU", data: LUNCH_MENU },
-  happy: { title: "HAPPY HOUR MENU", data: HAPPY_HOUR_MENU },
+const EMPTY_MENUS: Record<TabKey, { title: string; data: MenuCategory[] }> = {
+  specials: { title: "WEEKLY SPECIALS", data: [] },
+  dinner: { title: "DINNER MENU", data: [] },
+  lunch: { title: "LUNCH & BRUNCH MENU", data: [] },
+  happy: { title: "HAPPY HOUR MENU", data: [] },
 };
 
 const MenuPage = () => {
-  const [activeTab, setActiveTab] = useState<TabKey>("dinner");
-  const currentMenu = MENUS[activeTab];
+  const [activeTab, setActiveTab] = useState<TabKey>("specials");
+  const [menus, setMenus] = useState(EMPTY_MENUS);
+  const [loadError, setLoadError] = useState("");
+
+  useEffect(() => {
+    const loadMenu = async () => {
+      try {
+        const response = await fetch("/content/menu.json", { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error("Could not load menu content.");
+        }
+        const content = (await response.json()) as MenuContent;
+        setMenus({
+          specials: { title: content.specials.title, data: content.specials.categories },
+          dinner: { title: content.menus.dinner.title, data: content.menus.dinner.categories },
+          lunch: { title: content.menus.lunch.title, data: content.menus.lunch.categories },
+          happy: { title: content.menus.happy.title, data: content.menus.happy.categories },
+        });
+      } catch (error) {
+        setLoadError(error instanceof Error ? error.message : "Could not load menu content.");
+      }
+    };
+
+    void loadMenu();
+  }, []);
+
+  const currentMenu = menus[activeTab];
 
   return (
     <div className="min-h-screen bg-background">
@@ -59,7 +81,11 @@ const MenuPage = () => {
           Seasonal, reflective of the freshest ingredients, and subject to change
         </p>
 
-        <MenuCategoryList data={currentMenu.data} />
+        {loadError ? (
+          <p className="text-center font-sans text-sm text-muted-foreground">{loadError}</p>
+        ) : (
+          <MenuCategoryList data={currentMenu.data} />
+        )}
       </main>
 
       {/* Footer */}

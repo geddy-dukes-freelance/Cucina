@@ -10,6 +10,7 @@ const GIFT_CARDS_URL = "https://order.toasttab.com/egiftcards/cucina-sa";
 
 const NAV_ITEMS = [
   { label: "Home", href: "/" },
+  { label: "About Us", href: "/aboutus" },
   { label: "Menus", href: "/menu" },
   { label: "Reservations", href: RESERVATIONS_URL },
   { label: "Order Online", href: ORDER_ONLINE_URL },
@@ -77,7 +78,7 @@ const SiteNav = ({ variant = "overlay" }: SiteNavProps) => {
       <div className={`md:hidden ${variant === "overlay" ? "ml-auto" : ""}`}>
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
-            <button className={`${variant === "solid" ? "text-primary-foreground" : "text-foreground"} p-2`} aria-label="Open menu">
+            <button className="text-white p-2" aria-label="Open menu">
               <Menu className="h-7 w-7" />
             </button>
           </SheetTrigger>

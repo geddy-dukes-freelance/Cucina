@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import cucinaLogo from "@/assets/cucina-logo-transparent.png";
 import cucinaHeroVideo from "@/assets/cucina-hero.mov";
 import cucinaStorefront from "@/assets/cucina-storefront.jpeg";
@@ -6,10 +7,86 @@ import cucinaWine from "@/assets/cucina-wine.jpeg";
 import cucinaSalad from "@/assets/cucina-salad.jpeg";
 import SiteNav from "@/components/SiteNav";
 import Footer from "@/components/Footer";
+import type { HomeContent, HomeModal } from "@/types/content";
+
+const DEFAULT_HOME_CONTENT: HomeContent = {
+  modals: [],
+  about: { heading: "OUR STORY", paragraphs: [] },
+};
+
+const isModalInDateWindow = (modal: HomeModal) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if (modal.startsAt) {
+    const startsAt = new Date(`${modal.startsAt}T00:00:00`);
+    if (today < startsAt) return false;
+  }
+
+  if (modal.endsAt) {
+    const endsAt = new Date(`${modal.endsAt}T00:00:00`);
+    if (today > endsAt) return false;
+  }
+
+  return true;
+};
 
 const Index = () => {
+  const [homeContent, setHomeContent] = useState(DEFAULT_HOME_CONTENT);
+
+  useEffect(() => {
+    const loadHomeContent = async () => {
+      try {
+        const response = await fetch("/content/home.json", { cache: "no-store" });
+        if (!response.ok) return;
+        setHomeContent((await response.json()) as HomeContent);
+      } catch {
+        setHomeContent(DEFAULT_HOME_CONTENT);
+      }
+    };
+
+    void loadHomeContent();
+  }, []);
+
+  const activeModal: HomeModal | undefined = homeContent.modals.find(
+    (modal) => modal.active && isModalInDateWindow(modal),
+  );
+
   return (
     <div className="min-h-screen">
+      {activeModal && (
+        <div data-home-modal className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 px-4">
+          <div className="w-full max-w-md bg-cucina-cream p-7 text-center shadow-xl">
+            <h2 className="font-display text-2xl tracking-[0.08em] text-cucina-dark">
+              {activeModal.title}
+            </h2>
+            <p className="mt-4 font-sans text-sm leading-relaxed text-foreground/80">
+              {activeModal.body}
+            </p>
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
+              {activeModal.buttonLabel && activeModal.buttonUrl && (
+                <a
+                  href={activeModal.buttonUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-cucina-dark px-5 py-2 font-sans text-sm text-white transition-opacity hover:opacity-85"
+                >
+                  {activeModal.buttonLabel}
+                </a>
+              )}
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.currentTarget.closest("[data-home-modal]")?.remove();
+                }}
+                className="border border-cucina-dark px-5 py-2 font-sans text-sm text-cucina-dark transition-opacity hover:opacity-70"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Hero Section */}
       <section className="relative w-full aspect-[16/9]" style={{ isolation: 'isolate' }}>
         <video
@@ -38,33 +115,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Our Story Section */}
-      <section id="story" className="bg-cucina-dark py-20 px-6">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="font-display text-4xl md:text-5xl font-light tracking-[0.08em] mb-10 text-primary-foreground">
-            OUR STORY
-          </h2>
-          <div className="space-y-[0.5em] font-sans text-[15px] md:text-base font-light leading-relaxed text-center text-primary-foreground/85">
-            <p>
-              A neighborhood is more than a place. It's the people who gather there, the familiar faces, the feeling of comfort when you walk through the door. It's where stories are shared, meals linger, and time slows just enough.
-            </p>
-            <p>We're grateful to call San Anselmo our home.</p>
-            <p>
-              Cucina has been part of this neighborhood since 1998, and while much has evolved over the years, the spirit remains the same. Today's Cucina SA is a refreshed take on a longtime favorite; warm, welcoming, and rooted in the simple joy of good food enjoyed together.
-            </p>
-            <p>
-              Our wood-fired oven is lit each evening, the bar is always pouring thoughtfully chosen wine, beer, and cocktails, and there's usually a game on for those who want to stay awhile. Our Southern Italian–inspired dishes are made with care, with daily specials that keep things interesting and just a little unexpected.
-            </p>
-            <p>
-              Whether you live just up the street or are joining us from across the bridge, we hope Cucina feels like a place you can settle into — for a quick bite, a long dinner, or anything in between. Plenty of smiles come standard.
-            </p>
-            <p>
-              Owner Donna welcomes you back — or invites you in for the first time.<br />
-              We're always here, and we hope to see you soon.
-            </p>
-          </div>
-        </div>
-
+      <section className="bg-cucina-dark py-20 px-6">
         {/* Food Gallery */}
         <div className="max-w-3xl mx-auto mt-16 grid grid-cols-3 gap-1">
           <img src={cucinaSalad} alt="Seasonal salad with citrus and burrata" className="w-full h-64 object-cover" />

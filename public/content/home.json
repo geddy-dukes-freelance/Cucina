@@ -1,0 +1,25 @@
+{
+  "modals": [
+    {
+      "id": "welcome",
+      "active": false,
+      "title": "Welcome to Cucina",
+      "body": "Join us for seasonal Southern Italian cooking in San Anselmo.",
+      "buttonLabel": "Make a Reservation",
+      "buttonUrl": "https://resy.com/cities/san-anselmo-ca/venues/cucina-sa?seats=2&date=2026-04-29",
+      "startsAt": "",
+      "endsAt": ""
+    }
+  ],
+  "about": {
+    "heading": "OUR STORY",
+    "paragraphs": [
+      "A neighborhood is more than a place. It's the people who gather there, the familiar faces, the feeling of comfort when you walk through the door. It's where stories are shared, meals linger, and time slows just enough.",
+      "We're grateful to call San Anselmo our home.",
+      "Cucina has been part of this neighborhood since 1998, and while much has evolved over the years, the spirit remains the same. Today's Cucina SA is a refreshed take on a longtime favorite; warm, welcoming, and rooted in the simple joy of good food enjoyed together.",
+      "Our wood-fired oven is lit each evening, the bar is always pouring thoughtfully chosen wine, beer, and cocktails, and there's usually a game on for those who want to stay awhile. Our Southern Italian-inspired dishes are made with care, with daily specials that keep things interesting and just a little unexpected.",
+      "Whether you live just up the street or are joining us from across the bridge, we hope Cucina feels like a place you can settle into - for a quick bite, a long dinner, or anything in between. Plenty of smiles come standard.",
+      "Owner Donna welcomes you back - or invites you in for the first time.\nWe're always here, and we hope to see you soon."
+    ]
+  }
+}

@@ -1,4 +1,4 @@
-import { MenuCategory } from "@/data/menus";
+import type { MenuCategory } from "@/types/content";
 
 interface MenuCategoryListProps {
     data: MenuCategory[];
