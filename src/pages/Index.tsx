@@ -140,10 +140,10 @@ const Index = () => {
         </div>
 
         {/* Handwritten sign-off with La Belle Aurore font on the left side at a 25° upward angle */}
-        <div className="max-w-3xl mx-auto mt-20 mb-12 px-0 flex justify-start overflow-visible">
+        <div className="max-w-3xl mx-auto mt-20 mb-12 px-6 md:px-0 flex justify-start overflow-visible">
           <p
-            className="font-script text-[clamp(2.2rem,6vw,3.5rem)] font-normal leading-[1.1] text-primary-foreground/90 text-left select-none origin-bottom-left"
-            style={{ transform: "rotate(-25deg) translateX(-4.5rem) translateY(0.5rem)" }}
+            className="font-script text-[clamp(1.75rem,5.5vw,3.5rem)] font-normal leading-[1.1] text-primary-foreground/90 text-left select-none origin-bottom-left -translate-x-1 md:-translate-x-16"
+            style={{ transform: "rotate(-25deg) translateY(0.5rem)" }}
           >
             See you in<br />San Anselmo
           </p>

@@ -10,7 +10,6 @@ const GIFT_CARDS_URL = "https://order.toasttab.com/egiftcards/cucina-sa";
 
 const NAV_ITEMS = [
   { label: "Home", href: "/" },
-  { label: "About Us", href: "/#about" },
   { label: "Menus", href: "/menu" },
   { label: "Reservations", href: RESERVATIONS_URL },
   { label: "Order Online", href: ORDER_ONLINE_URL },

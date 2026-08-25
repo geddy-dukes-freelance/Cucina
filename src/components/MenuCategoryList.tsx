@@ -23,7 +23,7 @@ const MenuCategoryList = ({ data }: MenuCategoryListProps) => {
                 return (
                     <div key={cat.category} className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-y-6 gap-x-12">
                         {/* Category Name */}
-                        <h2 className="font-serif text-xl md:text-2xl tracking-[0.15em] text-muted-foreground font-light">
+                        <h2 className="font-sans text-lg md:text-xl tracking-[0.15em] text-muted-foreground font-semibold uppercase">
                             {cat.category}
                         </h2>
 

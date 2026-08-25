@@ -48,12 +48,12 @@ const Footer = () => {
 
                         <p className="text-[10px] md:text-xs font-sans tracking-[0.2em] uppercase mb-1 md:mb-2 text-white/80">&gt; Instagram</p>
                         <a
-                            href="https://instagram.com/cucinasa"
+                            href="https://instagram.com/cucina_sa"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-xl md:text-3xl lg:text-4xl font-serif hover:opacity-80 transition-opacity tracking-wide block"
                         >
-                            @cucinasa
+                            @cucina_sa
                         </a>
                     </div>
                 </div>

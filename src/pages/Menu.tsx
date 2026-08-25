@@ -74,7 +74,7 @@ const MenuPage = () => {
 
       {/* Menu Content */}
       <main className="max-w-5xl mx-auto px-6 py-12 md:py-16">
-        <h1 className="font-serif text-4xl md:text-5xl tracking-wide text-center mb-3" style={{ color: "hsl(30, 60%, 50%)" }}>
+        <h1 className="font-sans text-3xl md:text-4xl font-bold tracking-[0.1em] text-center mb-3 uppercase" style={{ color: "hsl(30, 60%, 50%)" }}>
           {currentMenu.title}
         </h1>
         <p className="text-center font-sans text-sm italic mb-12" style={{ color: "hsl(30, 60%, 50%)" }}>
