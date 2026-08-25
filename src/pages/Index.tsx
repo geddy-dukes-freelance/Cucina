@@ -139,11 +139,11 @@ const Index = () => {
           <img src={cucinaPasta} alt="Spaghetti with tomato sauce" className="w-full h-64 object-cover" />
         </div>
 
-        {/* Handwritten sign-off with La Belle Aurore font */}
-        <div className="max-w-3xl mx-auto mt-12 px-6 overflow-visible">
+        {/* Handwritten sign-off with La Belle Aurore font positioned to the side and at an angle */}
+        <div className="max-w-3xl mx-auto mt-14 px-6 flex justify-end overflow-visible">
           <p
-            className="font-script text-[clamp(2.2rem,7vw,3.8rem)] font-normal leading-[1.1] text-primary-foreground/85 origin-left max-w-full"
-            style={{ transform: "translateX(clamp(-2.5rem, -5vw, -0.5rem)) rotate(-3deg)" }}
+            className="font-script text-[clamp(2.5rem,7.5vw,4.2rem)] font-normal leading-[1.05] text-primary-foreground/90 text-right select-none"
+            style={{ transform: "rotate(-7deg) translateY(-0.5rem) translateX(0.5rem)" }}
           >
             See you in<br />San Anselmo
           </p>
