@@ -115,7 +115,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="about" className="bg-cucina-dark py-20 px-6">
+      <section id="about" className="bg-cucina-dark pt-20 pb-12 px-6">
         {/* Story Text (Without title) */}
         {homeContent.about.paragraphs.length > 0 && (
           <div className="max-w-3xl mx-auto space-y-6 text-center font-sans text-base md:text-lg font-light leading-relaxed text-primary-foreground/85">
@@ -139,8 +139,8 @@ const Index = () => {
           <img src={cucinaPasta} alt="Spaghetti with tomato sauce" className="w-full h-64 object-cover" />
         </div>
 
-        {/* Handwritten sign-off with La Belle Aurore font centered underneath middle picture (no slant) */}
-        <div className="max-w-3xl mx-auto mt-10 mb-4 text-center">
+        {/* Handwritten sign-off with La Belle Aurore font centered vertically and horizontally */}
+        <div className="max-w-3xl mx-auto mt-12 mb-0 flex flex-col items-center justify-center text-center">
           <p className="font-script text-[clamp(2.2rem,6.5vw,3.8rem)] font-normal leading-[1.1] text-primary-foreground/90 select-none">
             See you in<br />San Anselmo
           </p>
