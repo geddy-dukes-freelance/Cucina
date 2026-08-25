@@ -19,7 +19,7 @@ export default {
         nav: ['Cormorant Garamond', 'serif'],
         display: ['Montserrat', 'sans-serif'],
         body: ['Inter', 'sans-serif'],
-        script: ['Caveat', 'cursive'],
+        script: ['La Belle Aurore', 'cursive'],
       },
       colors: {
         border: "hsl(var(--border))",

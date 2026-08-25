@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
-import AboutUs from "./pages/AboutUs";
 import MenuPage from "./pages/Menu";
 import OwnerPortal from "./pages/OwnerPortal";
 import NotFound from "./pages/NotFound";
@@ -21,7 +20,6 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/menu" element={<MenuPage />} />
             <Route path="/portal" element={<OwnerPortal />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

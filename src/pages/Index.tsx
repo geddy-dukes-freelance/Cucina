@@ -115,7 +115,23 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="bg-cucina-dark py-20 px-6">
+      <section id="about" className="bg-cucina-dark py-20 px-6">
+        {/* Story Text (Without title) */}
+        {homeContent.about.paragraphs.length > 0 && (
+          <div className="max-w-3xl mx-auto space-y-6 text-center font-sans text-base md:text-lg font-light leading-relaxed text-primary-foreground/85">
+            {homeContent.about.paragraphs.map((paragraph, idx) => (
+              <p key={idx}>
+                {paragraph.split("\n").map((line, index) => (
+                  <span key={`${line}-${index}`}>
+                    {index > 0 && <br />}
+                    {line}
+                  </span>
+                ))}
+              </p>
+            ))}
+          </div>
+        )}
+
         {/* Food Gallery */}
         <div className="max-w-3xl mx-auto mt-16 grid grid-cols-3 gap-1">
           <img src={cucinaSalad} alt="Seasonal salad with citrus and burrata" className="w-full h-64 object-cover" />
@@ -123,10 +139,10 @@ const Index = () => {
           <img src={cucinaPasta} alt="Spaghetti with tomato sauce" className="w-full h-64 object-cover" />
         </div>
 
-        {/* Handwritten sign-off */}
+        {/* Handwritten sign-off with La Belle Aurore font */}
         <div className="max-w-3xl mx-auto mt-12 px-6 overflow-visible">
           <p
-            className="font-script text-[clamp(1.85rem,6vw,3.25rem)] font-normal leading-[0.92] text-primary-foreground/85 origin-left max-w-full"
+            className="font-script text-[clamp(2.2rem,7vw,3.8rem)] font-normal leading-[1.1] text-primary-foreground/85 origin-left max-w-full"
             style={{ transform: "translateX(clamp(-2.5rem, -5vw, -0.5rem)) rotate(-3deg)" }}
           >
             See you in<br />San Anselmo
