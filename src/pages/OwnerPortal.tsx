@@ -100,18 +100,34 @@ const OwnerPortal = () => {
   }, [isAuthenticated]);
 
   const saveContentFile = async (path: string, content: HomeContent | MenuContent) => {
-    let response = await fetch("/api/content", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password: passwordInput, path, content }),
-    });
-
-    if (response.status === 404) {
-      response = await fetch("/.netlify/functions/content", {
+    let response: Response | null = null;
+    try {
+      response = await fetch("/api/content", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password: passwordInput, path, content }),
       });
+    } catch {
+      // Local dev server without API function running
+    }
+
+    if (!response || response.status === 404) {
+      try {
+        response = await fetch("/.netlify/functions/content", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ password: passwordInput, path, content }),
+        });
+      } catch {
+        // Local dev fallback
+      }
+    }
+
+    if (!response || response.status === 404) {
+      if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+        return; // Simulated save in local dev environment
+      }
+      throw new Error("Save endpoint not reachable. Ensure serverless functions or Vercel are deployed.");
     }
 
     const result = (await response.json().catch(() => ({}))) as { error?: string };
