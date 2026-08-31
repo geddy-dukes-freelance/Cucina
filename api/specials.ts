@@ -18,14 +18,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const blobs = await list({ prefix: "content/specials.json" });
       if (blobs.blobs.length > 0) {
         const latestBlob = blobs.blobs[0];
-        const blobRes = await fetch(`${latestBlob.url}?t=${Date.now()}`, { cache: "no-store" });
+        const targetUrl = latestBlob.downloadUrl || latestBlob.url;
+        const blobRes = await fetch(`${targetUrl}?t=${Date.now()}`, { cache: "no-store" });
         if (blobRes.ok) {
           const data = await blobRes.json();
           return res.status(200).json(data);
         }
       }
-    } catch {
-      // Fallback
+    } catch (e) {
+      console.error("Vercel Blob read error:", e);
     }
 
     try {
@@ -60,11 +61,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     try {
-      const blob = await put("content/specials.json", JSON.stringify(specials, null, 2), {
-        access: "public",
-        addRandomSuffix: false,
-        contentType: "application/json",
-      });
+      let blob;
+      try {
+        blob = await put("content/specials.json", JSON.stringify(specials, null, 2), {
+          addRandomSuffix: false,
+          contentType: "application/json",
+        });
+      } catch {
+        blob = await put("content/specials.json", JSON.stringify(specials, null, 2), {
+          access: "public",
+          addRandomSuffix: false,
+          contentType: "application/json",
+        });
+      }
       return res.status(200).json({ ok: true, url: blob.url, specials });
     } catch (blobErr) {
       const blobMsg = blobErr instanceof Error ? blobErr.message : String(blobErr);
@@ -115,7 +124,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       return res.status(400).json({
-        error: `Vercel Blob Storage error: ${blobMsg}. Ensure Vercel Blob is connected to cucina-sa-replica and trigger a Redeploy in Vercel.`,
+        error: `Vercel Blob Storage error: ${blobMsg}`,
       });
     }
   }

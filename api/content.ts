@@ -27,7 +27,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const blobs = await list({ prefix: blobKey });
       if (blobs.blobs.length > 0) {
         const latestBlob = blobs.blobs[0];
-        const blobRes = await fetch(`${latestBlob.url}?t=${Date.now()}`, { cache: "no-store" });
+        const targetUrl = latestBlob.downloadUrl || latestBlob.url;
+        const blobRes = await fetch(`${targetUrl}?t=${Date.now()}`, { cache: "no-store" });
         if (blobRes.ok) {
           const data = await blobRes.json();
           return res.status(200).json(data);
@@ -75,11 +76,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     try {
       const blobKey = path.replace("public/", "");
-      const blob = await put(blobKey, JSON.stringify(content, null, 2), {
-        access: "public",
-        addRandomSuffix: false,
-        contentType: "application/json",
-      });
+      let blob;
+      try {
+        blob = await put(blobKey, JSON.stringify(content, null, 2), {
+          addRandomSuffix: false,
+          contentType: "application/json",
+        });
+      } catch {
+        blob = await put(blobKey, JSON.stringify(content, null, 2), {
+          access: "public",
+          addRandomSuffix: false,
+          contentType: "application/json",
+        });
+      }
       return res.status(200).json({ ok: true, url: blob.url, path });
     } catch (blobErr) {
       const blobMsg = blobErr instanceof Error ? blobErr.message : String(blobErr);
@@ -129,7 +138,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       return res.status(400).json({
-        error: `Vercel Blob Storage error: ${blobMsg}. Ensure Vercel Blob is connected to cucina-sa-replica and trigger a Redeploy in Vercel.`,
+        error: `Vercel Blob Storage error: ${blobMsg}`,
       });
     }
   }
