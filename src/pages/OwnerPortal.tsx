@@ -100,12 +100,21 @@ const OwnerPortal = () => {
   }, [isAuthenticated]);
 
   const saveContentFile = async (path: string, content: HomeContent | MenuContent) => {
-    const response = await fetch("/.netlify/functions/content", {
+    let response = await fetch("/api/content", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ password: passwordInput, path, content }),
     });
-    const result = await response.json().catch(() => ({}));
+
+    if (response.status === 404) {
+      response = await fetch("/.netlify/functions/content", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: passwordInput, path, content }),
+      });
+    }
+
+    const result = (await response.json().catch(() => ({}))) as { error?: string };
 
     if (!response.ok) {
       throw new Error(result.error ?? "Save failed.");
