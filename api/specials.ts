@@ -1,10 +1,11 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { put, head } from "@vercel/blob";
+import { put, list } from "@vercel/blob";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
 
   if (req.method === "OPTIONS") {
     return res.status(200).end();
@@ -18,16 +19,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     try {
       if (BLOB_TOKEN) {
         try {
-          const blobInfo = await head("content/specials.json", { token: BLOB_TOKEN });
-          if (blobInfo?.url) {
-            const blobRes = await fetch(blobInfo.url, { cache: "no-store" });
+          const blobs = await list({ prefix: "content/specials.json", token: BLOB_TOKEN });
+          if (blobs.blobs.length > 0) {
+            const latestBlob = blobs.blobs[0];
+            const blobRes = await fetch(`${latestBlob.url}?t=${Date.now()}`, { cache: "no-store" });
             if (blobRes.ok) {
               const data = await blobRes.json();
               return res.status(200).json(data);
             }
           }
-        } catch {
-          // Fallback to github or static
+        } catch (e) {
+          console.error("Vercel Blob read error:", e);
         }
       }
 
@@ -35,7 +37,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const GITHUB_REPO = process.env.GITHUB_REPO || "Cucina";
       const GITHUB_BRANCH = process.env.GITHUB_BRANCH || "main";
       const url = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/public/content/menu.json`;
-      const response = await fetch(url, { cache: "no-store" });
+      const response = await fetch(`${url}?t=${Date.now()}`, { cache: "no-store" });
       if (response.ok) {
         const menuData = (await response.json()) as { specials?: Record<string, unknown> };
         return res.status(200).json(menuData.specials || { title: "WEEKLY SPECIALS", categories: [] });
@@ -70,8 +72,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           token: BLOB_TOKEN,
         });
         return res.status(200).json({ ok: true, url: blob.url, specials });
-      } catch {
-        // Fallback to GitHub
+      } catch (err) {
+        return res.status(500).json({ error: `Vercel Blob save failed: ${err instanceof Error ? err.message : String(err)}` });
       }
     }
 
@@ -119,7 +121,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
     }
 
-    return res.status(200).json({ ok: true, specials });
+    return res.status(400).json({
+      error: "Vercel Blob Storage is not connected. In Vercel Dashboard, go to Storage tab -> Connect Blob to this project.",
+    });
   }
 
   return res.status(405).json({ error: "Method not allowed." });

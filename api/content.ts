@@ -10,6 +10,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
 
   if (req.method === "OPTIONS") {
     return res.status(200).end();
@@ -51,8 +52,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         token: BLOB_TOKEN,
       });
       return res.status(200).json({ ok: true, url: blob.url, path });
-    } catch {
-      // Fallback
+    } catch (err) {
+      return res.status(500).json({ error: `Vercel Blob save failed: ${err instanceof Error ? err.message : String(err)}` });
     }
   }
 
@@ -99,5 +100,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
   }
 
-  return res.status(200).json({ ok: true, path });
+  return res.status(400).json({
+    error: "Vercel Blob Storage is not connected. In Vercel Dashboard, go to Storage tab -> Connect Blob to this project.",
+  });
 }
