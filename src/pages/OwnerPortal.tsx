@@ -498,29 +498,37 @@ const OwnerPortal = () => {
 
             {activeSection === "about" && (
               <div className="space-y-5">
-                <h2 className="font-serif text-2xl text-cucina-dark">About Us Page</h2>
+                <h2 className="font-serif text-2xl text-cucina-dark">Our Story / About Us</h2>
                 <div>
                   <FieldLabel>Heading</FieldLabel>
                   <input
-                    value={homeContent.about.heading}
-                    onChange={(event) => setHomeContent((current) => ({ ...current, about: { ...current.about, heading: event.target.value } }))}
+                    value={homeContent.community?.heading ?? homeContent.about?.heading ?? "IN SAN ANSELMO SINCE 1998"}
+                    onChange={(event) => setHomeContent((current) => ({
+                      ...current,
+                      community: {
+                        heading: event.target.value,
+                        paragraph: current.community?.paragraph ?? "",
+                      },
+                    }))}
                     className="mt-1 w-full rounded border border-input p-2 font-sans"
                   />
                 </div>
                 <div>
                   <FieldLabel>Story text</FieldLabel>
                   <textarea
-                    value={homeContent.about.paragraphs.join("\n\n")}
+                    value={
+                      homeContent.community?.paragraph ??
+                      (homeContent.about?.paragraphs ? homeContent.about.paragraphs.join("\n\n") : "")
+                    }
                     onChange={(event) => setHomeContent((current) => ({
                       ...current,
-                      about: {
-                        ...current.about,
-                        paragraphs: event.target.value.split(/\n\s*\n/).map((paragraph) => paragraph.trim()).filter(Boolean),
+                      community: {
+                        heading: current.community?.heading ?? "IN SAN ANSELMO SINCE 1998",
+                        paragraph: event.target.value,
                       },
                     }))}
-                    className="mt-1 min-h-[420px] w-full rounded border border-input p-3 font-sans leading-relaxed"
+                    className="mt-1 min-h-[220px] w-full rounded border border-input p-3 font-sans leading-relaxed"
                   />
-                  <p className="mt-2 font-sans text-xs text-muted-foreground">Use a blank line between paragraphs.</p>
                 </div>
               </div>
             )}
