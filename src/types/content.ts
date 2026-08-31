@@ -38,7 +38,17 @@ export type HomeModal = {
 
 export type HomeContent = {
   modals: HomeModal[];
-  about: {
+  hero?: {
+    headline: string;
+    scriptSubtitle: string;
+    paragraph: string;
+  };
+  community?: {
+    heading: string;
+    paragraph: string;
+  };
+  signoff?: string;
+  about?: {
     heading: string;
     paragraphs: string[];
   };

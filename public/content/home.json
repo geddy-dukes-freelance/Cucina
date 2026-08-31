@@ -11,13 +11,14 @@
       "endsAt": ""
     }
   ],
-  "about": {
-    "heading": "OUR STORY",
-    "paragraphs": [
-      "At Cucina, modern Italian cuisine meets the freshness and abundance of California's seasonal ingredients.",
-      "Our menu brings together Italian inspiration, thoughtfully prepared dishes, and a curated selection of Italian and California wines—all served in a warm, vibrant setting in the heart of San Anselmo.",
-      "Whether you're joining us for a casual dinner, a celebration with family and friends, or an evening over great food and wine, we're committed to creating an experience that is welcoming, memorable, and worth returning for.",
-      "Proudly woman-owned and operated, Cucina has been serving the Marin community for more than 27 years while continuing to evolve with the seasons, our community, and a passion for exceptional hospitality."
-    ]
-  }
+  "hero": {
+    "headline": "At Cucina, modern Italian cuisine meets the freshness and abundance of California's seasonal ingredients.",
+    "scriptSubtitle": "Italian at heart: San Anselmo through and through.",
+    "paragraph": "Our menu brings together Italian inspiration, thoughtfully prepared dishes, and a curated selection of Italian and California wines—all served in a warm, vibrant setting in the heart of San Anselmo."
+  },
+  "community": {
+    "heading": "IN SAN ANSELMO SINCE 1998",
+    "paragraph": "For more than 27 years, Cucina has been a neighborhood gathering place for celebrations big and small. From weeknight dinners to birthday toasts, we're grateful to grow with the community we call home."
+  },
+  "signoff": "See you in San Anselmo"
 }

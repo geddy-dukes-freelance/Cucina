@@ -2,17 +2,20 @@ import type { MenuCategory } from "@/types/content";
 
 interface MenuCategoryListProps {
     data: MenuCategory[];
+    theme?: "dark" | "light";
 }
 
-const MenuCategoryList = ({ data }: MenuCategoryListProps) => {
+const MenuCategoryList = ({ data, theme = "dark" }: MenuCategoryListProps) => {
+    const isLight = theme === "light";
+
     return (
-        <div className="space-y-16">
+        <div className="space-y-12 max-w-3xl mx-auto">
             {data.map((cat) => {
                 if (cat.category === "NOTES") {
                     return (
-                        <div key={cat.category} className="flex flex-col items-center space-y-2 mt-8">
+                        <div key={cat.category} className={`border-t ${isLight ? "border-[#3B2C27]/20" : "border-[#3B2C27]"} pt-6 text-center space-y-1.5`}>
                             {cat.items.map((item, index) => (
-                                <p key={index} className="font-sans text-foreground/80 text-center italic">
+                                <p key={index} className={`font-sans text-xs md:text-sm italic ${isLight ? "text-[#3B2C27]/80" : "text-[#EDE4D7]/80"}`}>
                                     {item.description}
                                 </p>
                             ))}
@@ -21,24 +24,33 @@ const MenuCategoryList = ({ data }: MenuCategoryListProps) => {
                 }
 
                 return (
-                    <div key={cat.category} className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-y-6 gap-x-12">
-                        {/* Category Name */}
-                        <h2 className="font-sans text-lg md:text-xl tracking-[0.15em] text-muted-foreground font-semibold uppercase">
+                    <div key={cat.category} className="space-y-5">
+                        <h2 className={`font-display text-sm md:text-base tracking-[0.2em] font-semibold uppercase border-b ${isLight ? "text-[#3B2C27] border-[#3B2C27]/20" : "text-[#EDE4D7] border-[#3B2C27]"} pb-2`}>
                             {cat.category}
                         </h2>
 
-                        {/* Items */}
-                        <div className="space-y-5">
-                            {cat.items.map((item) => (
-                                <div key={item.name}>
-                                    <span className="font-sans font-bold text-foreground">{item.name}</span>
-                                    {"  "}
-                                    <span className="font-sans text-foreground/80">{item.description}</span>
-                                    {item.note && (
-                                        <span className="font-sans text-foreground/60 ml-3">{item.note}</span>
+                        <div className="space-y-6">
+                            {cat.items.map((item, idx) => (
+                                <div key={`${item.name}-${idx}`} className="space-y-1 border-b border-transparent pb-1">
+                                    <div className="flex justify-between items-baseline gap-4">
+                                        <span className={`font-sans font-bold text-base md:text-lg ${isLight ? "text-[#3B2C27]" : "text-white"}`}>
+                                            {item.name}
+                                        </span>
+                                        {item.price && (
+                                            <span className={`font-sans font-semibold text-sm md:text-base ${isLight ? "text-[#3B2C27]" : "text-[#EDE4D7]"}`}>
+                                                ${item.price}
+                                            </span>
+                                        )}
+                                    </div>
+                                    {item.description && (
+                                        <p className={`font-sans text-xs md:text-sm leading-relaxed ${isLight ? "text-[#3B2C27]/85" : "text-white/80"}`}>
+                                            {item.description}
+                                        </p>
                                     )}
-                                    {item.price && (
-                                        <span className="font-sans text-foreground ml-3">${item.price}</span>
+                                    {item.note && (
+                                        <p className={`font-sans text-[11px] md:text-xs italic ${isLight ? "text-[#3B2C27]/65" : "text-[#EDE4D7]/65"}`}>
+                                            {item.note}
+                                        </p>
                                     )}
                                 </div>
                             ))}

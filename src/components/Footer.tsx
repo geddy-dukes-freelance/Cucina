@@ -1,61 +1,85 @@
-import woodOven from "@/assets/wood-oven.jpg";
-import cucinaLogo from "@/assets/cucina-logo-transparent.png";
+import { useEffect, useState } from "react";
 
-const RESERVATIONS_URL = "https://resy.com/cities/san-anselmo-ca/venues/cucina-sa?seats=2&date=2026-04-29";
+const woodOven = "/assets/wood-oven.jpg";
 
-const Footer = () => {
+interface FooterProps {
+    signoffText?: string;
+}
+
+const Footer = ({ signoffText: customSignoff }: FooterProps) => {
+    const [signoffText, setSignoffText] = useState(customSignoff || "See you in San Anselmo.");
+
+    useEffect(() => {
+        if (customSignoff) {
+            setSignoffText(customSignoff);
+            return;
+        }
+        const loadSignoff = async () => {
+            try {
+                const response = await fetch("/content/home.json", { cache: "no-store" });
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.signoff) {
+                        setSignoffText(data.signoff);
+                    }
+                }
+            } catch {
+                // Default fallback is already set
+            }
+        };
+        void loadSignoff();
+    }, [customSignoff]);
+
     return (
-        <footer id="contact" className="relative w-full aspect-[15/9]">
-            {/* Wood oven image as background */}
-            <img
-                src={woodOven}
-                alt="Wood-fired oven"
-                className="absolute inset-0 w-full h-full object-cover contrast-[1.25] sepia-[0.1] grayscale-[0.2] brightness-[1.1]"
-                style={{ objectPosition: "50% 65%" }}
-            />
+        <footer id="contact" className="w-full bg-[#160F0D] border-t border-[#3B2C27] pt-14 pb-8 px-6 text-center text-white">
+            <div className="max-w-4xl mx-auto space-y-10">
+                {/* Dramatic Sign-off in Light Golden Cream */}
+                <h2 className="font-serif italic text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#F5E6C8] select-none drop-shadow-md">
+                    {signoffText}
+                </h2>
 
-            {/* Grain & Vintage Effects */}
-            <div className="absolute inset-0 bg-white/20 mix-blend-screen pointer-events-none" />
-            <div className="absolute inset-0 bg-noise opacity-[0.07] mix-blend-hard-light pointer-events-none" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.3)_100%)] pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none" />
+                {/* Centered Wood-Fired Oven Image */}
+                <div className="w-full overflow-hidden shadow-2xl border border-white/10 rounded-sm">
+                    <img
+                        src={woodOven}
+                        alt="Wood-fired pizza oven with roaring fire"
+                        className="w-full h-[280px] sm:h-[360px] md:h-[480px] object-cover"
+                    />
+                </div>
 
-            {/* Content Layer */}
-            <div className="absolute inset-0 p-6 md:p-12 lg:p-16">
-                <div className="flex justify-between items-start w-full h-full">
-                    {/* Left Column: Reservations + Logo */}
-                    <div className="flex flex-col items-start gap-4 md:gap-8">
-                        <a
-                            href={RESERVATIONS_URL}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="relative overflow-hidden group border border-white/80 text-white rounded-[50%] px-5 py-1.5 md:px-7 md:py-2 text-sm md:text-base font-body font-light tracking-wide hover:bg-white/10 transition-all duration-300"
-                        >
-                            <span className="relative z-10">Reservations</span>
-                        </a>
-
-                        <img
-                            src={cucinaLogo}
-                            alt="Cucina"
-                            className="w-[200px] md:w-[400px] lg:w-[500px] max-w-[50vw] contrast-150"
-                        />
+                {/* Contact Information Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t border-[#3B2C27]/60 text-center text-[#EDE4D7]">
+                    <div>
+                        <p className="font-display text-[10px] md:text-xs tracking-[0.2em] uppercase text-[#F5E6C8]/80 mb-1">LOCATION</p>
+                        <p className="font-sans text-sm text-white/90">518 San Anselmo Ave<br />San Anselmo, CA 94960</p>
                     </div>
 
-                    {/* Right Column: Contact Info - Aligned Left Text */}
-                    <div className="flex flex-col items-start text-left text-white mt-1 md:mt-2">
-                        <p className="text-[10px] md:text-xs font-sans tracking-[0.2em] uppercase mb-1 md:mb-2 text-white/80">&gt; Phone</p>
-                        <p className="text-xl md:text-3xl lg:text-4xl font-serif mb-3 md:mb-5 tracking-wide">415.454.2942</p>
+                    <div>
+                        <p className="font-display text-[10px] md:text-xs tracking-[0.2em] uppercase text-[#F5E6C8]/80 mb-1">PHONE</p>
+                        <a href="tel:4154542942" className="font-serif text-xl md:text-2xl text-white hover:text-[#F5E6C8] transition-colors block">
+                            415.454.2942
+                        </a>
+                    </div>
 
-                        <p className="text-[10px] md:text-xs font-sans tracking-[0.2em] uppercase mb-1 md:mb-2 text-white/80">&gt; Instagram</p>
+                    <div>
+                        <p className="font-display text-[10px] md:text-xs tracking-[0.2em] uppercase text-[#F5E6C8]/80 mb-1">INSTAGRAM</p>
                         <a
                             href="https://instagram.com/cucina_sa"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-xl md:text-3xl lg:text-4xl font-serif hover:opacity-80 transition-opacity tracking-wide block"
+                            className="font-serif text-xl md:text-2xl text-white hover:text-[#F5E6C8] transition-colors block"
                         >
                             @cucina_sa
                         </a>
                     </div>
+                </div>
+
+                {/* Bottom Bar: Woman Owned & Operated */}
+                <div className="w-full flex flex-col sm:flex-row justify-between items-center text-[10px] md:text-xs text-[#F5E6C8] font-display tracking-[0.2em] uppercase border-t border-[#3B2C27]/60 pt-6">
+                    <span className="text-white/80">Cucina SA • San Anselmo, CA</span>
+                    <span className="font-semibold text-[#F5E6C8] bg-black/40 px-3.5 py-1 rounded-full border border-[#F5E6C8]/30 mt-2 sm:mt-0">
+                        Woman Owned & Operated
+                    </span>
                 </div>
             </div>
         </footer>

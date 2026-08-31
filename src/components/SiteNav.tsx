@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
-import cucinaLogo from "@/assets/cucina-logo.png";
+const cucinaLogo = "/assets/cucina-logo.png";
 
 const RESERVATIONS_URL = "https://resy.com/cities/san-anselmo-ca/venues/cucina-sa?seats=2&date=2026-04-29";
 const ORDER_ONLINE_URL = "https://order.toasttab.com/online/cucina-sa";
