@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { put, list } from "@vercel/blob";
+import { put, list, get } from "@vercel/blob";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -23,6 +23,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (blobRes.ok) {
           const data = await blobRes.json();
           return res.status(200).json(data);
+        }
+        try {
+          const privateBlob = await get("content/specials.json", { access: "private" });
+          if (privateBlob) {
+            const text = await new Response(privateBlob.stream).text();
+            return res.status(200).json(JSON.parse(text));
+          }
+        } catch {
+          // Fallback
         }
       }
     } catch (e) {
@@ -64,6 +73,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       let blob;
       try {
         blob = await put("content/specials.json", JSON.stringify(specials, null, 2), {
+          access: "private",
           addRandomSuffix: false,
           contentType: "application/json",
         });

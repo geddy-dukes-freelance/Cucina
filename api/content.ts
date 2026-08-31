@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { put, list } from "@vercel/blob";
+import { put, list, get } from "@vercel/blob";
 
 const allowedPaths = new Set([
   "public/content/home.json",
@@ -32,6 +32,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (blobRes.ok) {
           const data = await blobRes.json();
           return res.status(200).json(data);
+        }
+        try {
+          const privateBlob = await get(blobKey, { access: "private" });
+          if (privateBlob) {
+            const text = await new Response(privateBlob.stream).text();
+            return res.status(200).json(JSON.parse(text));
+          }
+        } catch {
+          // Fallback
         }
       }
     } catch {
@@ -79,6 +88,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       let blob;
       try {
         blob = await put(blobKey, JSON.stringify(content, null, 2), {
+          access: "private",
           addRandomSuffix: false,
           contentType: "application/json",
         });
