@@ -17,28 +17,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "cucina2026";
-  const BLOB_TOKEN = process.env.BLOB_READ_WRITE_TOKEN;
-  const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
   if (req.method === "GET") {
     const rawPath = (req.query.path as string) || "public/content/menu.json";
     const path = allowedPaths.has(rawPath) ? rawPath : "public/content/menu.json";
     const blobKey = path.replace("public/", "");
 
-    if (BLOB_TOKEN) {
-      try {
-        const blobs = await list({ prefix: blobKey, token: BLOB_TOKEN });
-        if (blobs.blobs.length > 0) {
-          const latestBlob = blobs.blobs[0];
-          const blobRes = await fetch(`${latestBlob.url}?t=${Date.now()}`, { cache: "no-store" });
-          if (blobRes.ok) {
-            const data = await blobRes.json();
-            return res.status(200).json(data);
-          }
+    try {
+      const blobs = await list({ prefix: blobKey });
+      if (blobs.blobs.length > 0) {
+        const latestBlob = blobs.blobs[0];
+        const blobRes = await fetch(`${latestBlob.url}?t=${Date.now()}`, { cache: "no-store" });
+        if (blobRes.ok) {
+          const data = await blobRes.json();
+          return res.status(200).json(data);
         }
-      } catch (e) {
-        console.error("Vercel Blob read error:", e);
       }
+    } catch {
+      // Fallback
     }
 
     try {
@@ -77,67 +73,65 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: "Content must be a JSON object." });
     }
 
-    if (BLOB_TOKEN) {
-      try {
-        const blobKey = path.replace("public/", "");
-        const blob = await put(blobKey, JSON.stringify(content, null, 2), {
-          access: "public",
-          addRandomSuffix: false,
-          contentType: "application/json",
-          token: BLOB_TOKEN,
-        });
-        return res.status(200).json({ ok: true, url: blob.url, path });
-      } catch (err) {
-        return res.status(500).json({ error: `Vercel Blob save failed: ${err instanceof Error ? err.message : String(err)}` });
-      }
-    }
+    try {
+      const blobKey = path.replace("public/", "");
+      const blob = await put(blobKey, JSON.stringify(content, null, 2), {
+        access: "public",
+        addRandomSuffix: false,
+        contentType: "application/json",
+      });
+      return res.status(200).json({ ok: true, url: blob.url, path });
+    } catch (blobErr) {
+      const blobMsg = blobErr instanceof Error ? blobErr.message : String(blobErr);
 
-    if (GITHUB_TOKEN) {
-      try {
-        const GITHUB_OWNER = process.env.GITHUB_OWNER || "geddy-dukes-freelance";
-        const GITHUB_REPO = process.env.GITHUB_REPO || "Cucina";
-        const GITHUB_BRANCH = process.env.GITHUB_BRANCH || "main";
-        const apiPath = encodeURIComponent(path).replace(/%2F/g, "/");
-        const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${apiPath}`;
-        const headers = {
-          Authorization: `Bearer ${GITHUB_TOKEN}`,
-          Accept: "application/vnd.github+json",
-          "Content-Type": "application/json",
-          "X-GitHub-Api-Version": "2022-11-28",
-          "User-Agent": "cucina-sa-content-admin",
-        };
+      const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+      if (GITHUB_TOKEN) {
+        try {
+          const GITHUB_OWNER = process.env.GITHUB_OWNER || "geddy-dukes-freelance";
+          const GITHUB_REPO = process.env.GITHUB_REPO || "Cucina";
+          const GITHUB_BRANCH = process.env.GITHUB_BRANCH || "main";
+          const apiPath = encodeURIComponent(path).replace(/%2F/g, "/");
+          const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${apiPath}`;
+          const headers = {
+            Authorization: `Bearer ${GITHUB_TOKEN}`,
+            Accept: "application/vnd.github+json",
+            "Content-Type": "application/json",
+            "X-GitHub-Api-Version": "2022-11-28",
+            "User-Agent": "cucina-sa-content-admin",
+          };
 
-        const currentResponse = await fetch(`${url}?ref=${encodeURIComponent(GITHUB_BRANCH)}`, { headers });
-        if (currentResponse.ok) {
-          const currentFile = (await currentResponse.json()) as { sha: string };
-          const prettyContent = `${JSON.stringify(content, null, 2)}\n`;
-          const encodedContent = Buffer.from(prettyContent, "utf8").toString("base64");
+          const currentResponse = await fetch(`${url}?ref=${encodeURIComponent(GITHUB_BRANCH)}`, { headers });
+          if (currentResponse.ok) {
+            const currentFile = (await currentResponse.json()) as { sha: string };
+            const prettyContent = `${JSON.stringify(content, null, 2)}\n`;
+            const encodedContent = Buffer.from(prettyContent, "utf8").toString("base64");
 
-          const updateResponse = await fetch(url, {
-            method: "PUT",
-            headers,
-            body: JSON.stringify({
-              message: `Update ${path} from owner portal`,
-              content: encodedContent,
-              sha: currentFile.sha,
-              branch: GITHUB_BRANCH,
-            }),
-          });
+            const updateResponse = await fetch(url, {
+              method: "PUT",
+              headers,
+              body: JSON.stringify({
+                message: `Update ${path} from owner portal`,
+                content: encodedContent,
+                sha: currentFile.sha,
+                branch: GITHUB_BRANCH,
+              }),
+            });
 
-          const result = (await updateResponse.json().catch(() => ({}))) as { commit?: { html_url: string }; message?: string };
+            const result = (await updateResponse.json().catch(() => ({}))) as { commit?: { html_url: string }; message?: string };
 
-          if (updateResponse.ok) {
-            return res.status(200).json({ ok: true, commit: result.commit?.html_url, path });
+            if (updateResponse.ok) {
+              return res.status(200).json({ ok: true, commit: result.commit?.html_url, path });
+            }
           }
+        } catch {
+          // Fallback
         }
-      } catch (error) {
-        return res.status(500).json({ error: error instanceof Error ? error.message : "Save failed." });
       }
-    }
 
-    return res.status(400).json({
-      error: "Vercel Blob Storage is not connected. In Vercel Dashboard, go to Storage tab -> Connect Blob to this project.",
-    });
+      return res.status(400).json({
+        error: `Vercel Blob Storage error: ${blobMsg}. Ensure Vercel Blob is connected to cucina-sa-replica and trigger a Redeploy in Vercel.`,
+      });
+    }
   }
 
   return res.status(405).json({ error: "Method not allowed." });
