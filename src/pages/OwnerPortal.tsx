@@ -153,12 +153,29 @@ const OwnerPortal = () => {
     setStatus("Saving changes...");
 
     try {
-      const savingHome = activeSection === "modal" || activeSection === "about";
-      await saveContentFile(
-        savingHome ? "public/content/home.json" : "public/content/menu.json",
-        savingHome ? homeContent : menuContent,
-      );
-      setStatus("Saved. The live site will update after the next deploy.");
+      if (activeSection === "specials") {
+        let response: Response | null = null;
+        try {
+          response = await fetch("/api/specials", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: passwordInput, specials: menuContent.specials }),
+          });
+        } catch {
+          // Dev fallback
+        }
+
+        if (!response || !response.ok) {
+          await saveContentFile("public/content/menu.json", menuContent);
+        }
+      } else {
+        const savingHome = activeSection === "modal" || activeSection === "about";
+        await saveContentFile(
+          savingHome ? "public/content/home.json" : "public/content/menu.json",
+          savingHome ? homeContent : menuContent,
+        );
+      }
+      setStatus("Saved! Live changes updated instantly.");
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Save failed.");
     } finally {

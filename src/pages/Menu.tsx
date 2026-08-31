@@ -39,8 +39,22 @@ const MenuPage = () => {
           throw new Error("Could not load menu content.");
         }
         const content = (await response.json()) as MenuContent;
+
+        let specialsData = content.specials;
+        try {
+          const liveSpecialsRes = await fetch("/api/specials", { cache: "no-store" });
+          if (liveSpecialsRes.ok) {
+            const liveSpecials = (await liveSpecialsRes.json()) as MenuContent["specials"];
+            if (liveSpecials && Array.isArray(liveSpecials.categories)) {
+              specialsData = liveSpecials;
+            }
+          }
+        } catch {
+          // Fallback to static
+        }
+
         setMenus({
-          specials: { title: content.specials.title || "WEEKLY SPECIALS", data: content.specials.categories },
+          specials: { title: specialsData.title || "WEEKLY SPECIALS", data: specialsData.categories },
           dinner: { title: content.menus.dinner.title || "SEASONAL DINNER MENU", data: content.menus.dinner.categories },
           lunch: { title: content.menus.lunch.title || "LUNCH & BRUNCH MENU", data: content.menus.lunch.categories },
           happy: { title: content.menus.happy.title || "HAPPY HOUR MENU", data: content.menus.happy.categories },

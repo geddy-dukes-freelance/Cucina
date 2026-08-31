@@ -77,6 +77,17 @@ const Index = () => {
 
         if (menuRes.ok) {
           const menuData = (await menuRes.json()) as MenuContent;
+          try {
+            const liveSpecialsRes = await fetch("/api/specials", { cache: "no-store" });
+            if (liveSpecialsRes.ok) {
+              const liveSpecials = (await liveSpecialsRes.json()) as MenuContent["specials"];
+              if (liveSpecials && Array.isArray(liveSpecials.categories)) {
+                menuData.specials = liveSpecials;
+              }
+            }
+          } catch {
+            // Fallback to static
+          }
           setMenuContent(menuData);
         }
       } catch {
