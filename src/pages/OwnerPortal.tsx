@@ -285,7 +285,7 @@ const OwnerPortal = () => {
         </div>
 
         {menuSection.categories.map((category, categoryIndex) => (
-          <div key={`${category.category}-${categoryIndex}`} className="rounded border border-border p-4">
+          <div key={`cat-${categoryIndex}`} className="rounded border border-border p-4">
             <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
               <div className="flex-1">
                 <FieldLabel>Section name</FieldLabel>
@@ -306,7 +306,7 @@ const OwnerPortal = () => {
 
             <div className="mt-4 space-y-4">
               {category.items.map((item, itemIndex) => (
-                <div key={`${item.name}-${itemIndex}`} className="grid gap-3 rounded bg-cucina-warm/60 p-3 md:grid-cols-[1fr_2fr_0.7fr_0.7fr_auto]">
+                <div key={`item-${categoryIndex}-${itemIndex}`} className="grid gap-3 rounded bg-cucina-warm/60 p-3 md:grid-cols-[1fr_2fr_0.7fr_0.7fr_auto]">
                   <div>
                     <FieldLabel>Item</FieldLabel>
                     <input
