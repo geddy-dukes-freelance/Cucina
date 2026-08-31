@@ -60,35 +60,61 @@ const Index = () => {
   useEffect(() => {
     const loadContent = async () => {
       try {
-        const [homeRes, menuRes] = await Promise.all([
-          fetch("/content/home.json", { cache: "no-store" }),
-          fetch("/content/menu.json", { cache: "no-store" }),
-        ]);
-
-        if (homeRes.ok) {
-          const data = (await homeRes.json()) as HomeContent;
-          setHomeContent((prev) => ({
-            ...prev,
-            ...data,
-            hero: { ...prev.hero, ...data.hero },
-            community: { ...prev.community, ...data.community },
-          }));
+        // Load Home content (modals, community, hero) from live /api/content or fallback
+        try {
+          const homeApiRes = await fetch("/api/content?path=public/content/home.json", { cache: "no-store" });
+          if (homeApiRes.ok) {
+            const data = (await homeApiRes.json()) as HomeContent;
+            setHomeContent((prev) => ({
+              ...prev,
+              ...data,
+              hero: { ...prev.hero, ...data.hero },
+              community: { ...prev.community, ...data.community },
+            }));
+          } else {
+            const homeRes = await fetch("/content/home.json", { cache: "no-store" });
+            if (homeRes.ok) {
+              const data = (await homeRes.json()) as HomeContent;
+              setHomeContent((prev) => ({
+                ...prev,
+                ...data,
+                hero: { ...prev.hero, ...data.hero },
+                community: { ...prev.community, ...data.community },
+              }));
+            }
+          }
+        } catch {
+          // Fallback
         }
 
-        if (menuRes.ok) {
-          const menuData = (await menuRes.json()) as MenuContent;
-          try {
-            const liveSpecialsRes = await fetch("/api/specials", { cache: "no-store" });
-            if (liveSpecialsRes.ok) {
-              const liveSpecials = (await liveSpecialsRes.json()) as MenuContent["specials"];
-              if (liveSpecials && Array.isArray(liveSpecials.categories)) {
-                menuData.specials = liveSpecials;
-              }
+        // Load Menu content (dinner, lunch, happy, specials) from live /api/content or fallback
+        try {
+          const menuApiRes = await fetch("/api/content?path=public/content/menu.json", { cache: "no-store" });
+          if (menuApiRes.ok) {
+            const menuData = (await menuApiRes.json()) as MenuContent;
+            setMenuContent(menuData);
+          } else {
+            const menuRes = await fetch("/content/menu.json", { cache: "no-store" });
+            if (menuRes.ok) {
+              const menuData = (await menuRes.json()) as MenuContent;
+              setMenuContent(menuData);
             }
-          } catch {
-            // Fallback to static
           }
-          setMenuContent(menuData);
+        } catch {
+          // Fallback
+        }
+
+        // Check for live specials override
+        try {
+          const liveSpecialsRes = await fetch("/api/specials", { cache: "no-store" });
+          if (liveSpecialsRes.ok) {
+            const liveSpecials = (await liveSpecialsRes.json()) as MenuContent["specials"];
+            if (liveSpecials && Array.isArray(liveSpecials.categories)) {
+              setMenuContent((prev) => prev ? { ...prev, specials: liveSpecials } : prev);
+            }
+          }
+        } catch {
+          // Fallback
         }
       } catch {
         setHomeContent(DEFAULT_HOME_CONTENT);

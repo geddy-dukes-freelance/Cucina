@@ -34,12 +34,25 @@ const MenuPage = () => {
   useEffect(() => {
     const loadMenu = async () => {
       try {
-        const response = await fetch("/content/menu.json", { cache: "no-store" });
-        if (!response.ok) {
-          throw new Error("Could not load menu content.");
+        let content: MenuContent | null = null;
+        try {
+          const apiRes = await fetch("/api/content?path=public/content/menu.json", { cache: "no-store" });
+          if (apiRes.ok) {
+            content = (await apiRes.json()) as MenuContent;
+          }
+        } catch {
+          // Fallback
         }
-        const content = (await response.json()) as MenuContent;
 
+        if (!content) {
+          const staticRes = await fetch("/content/menu.json", { cache: "no-store" });
+          if (!staticRes.ok) {
+            throw new Error("Could not load menu content.");
+          }
+          content = (await staticRes.json()) as MenuContent;
+        }
+
+        // Check if there is an explicit live specials override
         let specialsData = content.specials;
         try {
           const liveSpecialsRes = await fetch("/api/specials", { cache: "no-store" });
@@ -50,14 +63,14 @@ const MenuPage = () => {
             }
           }
         } catch {
-          // Fallback to static
+          // Fallback
         }
 
         setMenus({
-          specials: { title: specialsData.title || "WEEKLY SPECIALS", data: specialsData.categories },
-          dinner: { title: content.menus.dinner.title || "SEASONAL DINNER MENU", data: content.menus.dinner.categories },
-          lunch: { title: content.menus.lunch.title || "LUNCH & BRUNCH MENU", data: content.menus.lunch.categories },
-          happy: { title: content.menus.happy.title || "HAPPY HOUR MENU", data: content.menus.happy.categories },
+          specials: { title: specialsData?.title || "WEEKLY SPECIALS", data: specialsData?.categories || [] },
+          dinner: { title: content.menus?.dinner?.title || "SEASONAL DINNER MENU", data: content.menus?.dinner?.categories || [] },
+          lunch: { title: content.menus?.lunch?.title || "LUNCH & BRUNCH MENU", data: content.menus?.lunch?.categories || [] },
+          happy: { title: content.menus?.happy?.title || "HAPPY HOUR MENU", data: content.menus?.happy?.categories || [] },
         });
       } catch (error) {
         setLoadError(error instanceof Error ? error.message : "Could not load menu content.");

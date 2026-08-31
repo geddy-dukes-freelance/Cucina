@@ -79,17 +79,32 @@ const OwnerPortal = () => {
     const loadContent = async () => {
       setStatus("Loading content...");
       try {
-        const [homeResponse, menuResponse] = await Promise.all([
-          fetch("/content/home.json", { cache: "no-store" }),
-          fetch("/content/menu.json", { cache: "no-store" }),
-        ]);
+        let homeData: HomeContent | null = null;
+        let menuData: MenuContent | null = null;
 
-        if (!homeResponse.ok || !menuResponse.ok) {
-          throw new Error("Could not load site content.");
+        try {
+          const [hRes, mRes] = await Promise.all([
+            fetch("/api/content?path=public/content/home.json", { cache: "no-store" }),
+            fetch("/api/content?path=public/content/menu.json", { cache: "no-store" }),
+          ]);
+          if (hRes.ok) homeData = (await hRes.json()) as HomeContent;
+          if (mRes.ok) menuData = (await mRes.json()) as MenuContent;
+        } catch {
+          // Fallback
         }
 
-        setHomeContent((await homeResponse.json()) as HomeContent);
-        setMenuContent((await menuResponse.json()) as MenuContent);
+        if (!homeData || !menuData) {
+          const [hStatic, mStatic] = await Promise.all([
+            fetch("/content/home.json", { cache: "no-store" }),
+            fetch("/content/menu.json", { cache: "no-store" }),
+          ]);
+
+          if (!homeData && hStatic.ok) homeData = (await hStatic.json()) as HomeContent;
+          if (!menuData && mStatic.ok) menuData = (await mStatic.json()) as MenuContent;
+        }
+
+        if (homeData) setHomeContent(homeData);
+        if (menuData) setMenuContent(menuData);
         setStatus("Content loaded.");
       } catch (error) {
         setStatus(error instanceof Error ? error.message : "Could not load content.");
