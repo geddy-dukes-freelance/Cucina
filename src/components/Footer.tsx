@@ -48,7 +48,7 @@ const Footer = ({ signoffText: customSignoff }: FooterProps) => {
                 </div>
 
                 {/* Contact Information Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t border-[#3B2C27]/60 text-center text-[#EDE4D7]">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 text-center text-[#EDE4D7]">
                     <div>
                         <p className="font-display text-[10px] md:text-xs tracking-[0.2em] uppercase text-[#F5E6C8]/80 mb-1">LOCATION</p>
                         <p className="font-sans text-sm text-white/90">518 San Anselmo Ave<br />San Anselmo, CA 94960</p>
@@ -75,7 +75,7 @@ const Footer = ({ signoffText: customSignoff }: FooterProps) => {
                 </div>
 
                 {/* Bottom Bar: Woman Owned & Operated */}
-                <div className="w-full flex flex-col sm:flex-row justify-between items-center text-[10px] md:text-xs text-[#F5E6C8] font-display tracking-[0.2em] uppercase border-t border-[#3B2C27]/60 pt-6">
+                <div className="w-full flex flex-col sm:flex-row justify-between items-center text-[10px] md:text-xs text-[#F5E6C8] font-display tracking-[0.2em] uppercase pt-6">
                     <span className="text-white/80">Cucina SA • San Anselmo, CA</span>
                     <span className="font-semibold text-[#F5E6C8] bg-black/40 px-3.5 py-1 rounded-full border border-[#F5E6C8]/30 mt-2 sm:mt-0">
                         Woman Owned & Operated

@@ -7,7 +7,8 @@ import MenuCategoryList from "@/components/MenuCategoryList";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import type { HomeContent, HomeModal, MenuCategory, MenuContent } from "@/types/content";
 
-const cucinaLogo = "/assets/cucina-sa-logo-gold.png";
+const cucinaSaLogo = "/assets/cucina-sa-logo-gold.png";
+const cucinaFullLogo = "/assets/cucina-logo-transparent.png";
 const cucinaIllustration = "/assets/cucina-illustration-transparent.png";
 const cucinaStorefrontNew = "/assets/cucina-storefront-new.jpg";
 const cucinaPasta = "/assets/cucina-pasta.jpeg";
@@ -326,7 +327,7 @@ const Index = () => {
         {/* Top Floating Header Links over Video */}
         <div className="absolute top-4 left-6 right-6 z-20 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <img src={cucinaLogo} alt="Cucina SA" className="h-8 md:h-10 w-auto drop-shadow-md" />
+            <img src={cucinaSaLogo} alt="Cucina SA" className="h-8 md:h-10 w-auto drop-shadow-md" />
           </Link>
 
           <div className="flex items-center gap-3">
@@ -383,9 +384,9 @@ const Index = () => {
         {/* Centered Hero Branding on Video */}
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-6 text-center">
           <img
-            src={cucinaLogo}
+            src={cucinaFullLogo}
             alt="Cucina SA"
-            className="h-16 sm:h-24 md:h-28 w-auto drop-shadow-2xl mb-1"
+            className="h-20 sm:h-28 md:h-36 w-auto mix-blend-screen drop-shadow-2xl mb-1"
           />
           <p className="font-serif italic text-base sm:text-xl md:text-2xl text-[#F5C86C] tracking-widest uppercase font-light drop-shadow-lg -mt-1">
             San Anselmo, California
@@ -394,7 +395,7 @@ const Index = () => {
       </section>
 
       {/* TOP ACTION NAV BAR (5 ITEMS) */}
-      <div className="w-full bg-[#130D0C] border-y border-[#3B2C27] grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 text-center divide-x divide-y sm:divide-y-0 divide-[#3B2C27]">
+      <div className="w-full bg-[#160F0D] border-y border-[#3B2C27] grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 text-center divide-x divide-y sm:divide-y-0 divide-[#3B2C27]">
         <a
           href={RESERVATIONS_URL}
           target="_blank"
@@ -465,10 +466,31 @@ const Index = () => {
           </div>
         </section>
 
-        {/* COMMUNITY SECTION - Featuring 3 Photos Grid on Right (Matching Photo 1) */}
-        <section id="community" className="w-full border-y border-[#3B2C27] bg-[#130D0C] py-14 md:py-20 px-6">
+        {/* COMMUNITY SECTION - 3 Photos Grid on Left & Text on Right */}
+        <section id="community" className="w-full bg-[#160F0D] py-14 md:py-20 px-6">
           <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-14 items-center">
-            {/* Left Column: Community Text & Links */}
+            {/* Left Column: 3 Vertical Photos Grid */}
+            <div className="md:col-span-6">
+              <div className="grid grid-cols-3 gap-1.5 md:gap-3">
+                <img
+                  src={cucinaSalad}
+                  alt="Seasonal salad with citrus and burrata"
+                  className="w-full h-64 sm:h-72 md:h-80 object-cover shadow-xl"
+                />
+                <img
+                  src={cucinaWine}
+                  alt="Bottle of wine with a glass"
+                  className="w-full h-64 sm:h-72 md:h-80 object-cover shadow-xl"
+                />
+                <img
+                  src={cucinaPasta}
+                  alt="Spaghetti with tomato sauce"
+                  className="w-full h-64 sm:h-72 md:h-80 object-cover shadow-xl"
+                />
+              </div>
+            </div>
+
+            {/* Right Column: Community Text & Links */}
             <div className="md:col-span-6 flex flex-col justify-center text-left space-y-5">
               <h2 className="font-display text-base sm:text-lg md:text-xl tracking-[0.22em] font-semibold text-[#EDE4D7] uppercase leading-relaxed">
                 {communityData.heading}
@@ -510,27 +532,6 @@ const Index = () => {
                 >
                   OUR STORY
                 </Link>
-              </div>
-            </div>
-
-            {/* Right Column: 3 Vertical Photos Grid (Matching Photo 1) */}
-            <div className="md:col-span-6">
-              <div className="grid grid-cols-3 gap-1.5 md:gap-3 border border-white/10 p-1.5 bg-[#160F0D] shadow-2xl">
-                <img
-                  src={cucinaSalad}
-                  alt="Seasonal salad with citrus and burrata"
-                  className="w-full h-64 sm:h-72 md:h-80 object-cover"
-                />
-                <img
-                  src={cucinaWine}
-                  alt="Bottle of wine with a glass"
-                  className="w-full h-64 sm:h-72 md:h-80 object-cover"
-                />
-                <img
-                  src={cucinaPasta}
-                  alt="Spaghetti with tomato sauce"
-                  className="w-full h-64 sm:h-72 md:h-80 object-cover"
-                />
               </div>
             </div>
           </div>
