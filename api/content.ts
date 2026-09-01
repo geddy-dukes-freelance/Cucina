@@ -95,11 +95,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         blob = await put(blobKey, JSON.stringify(content, null, 2), {
           access: "private",
           addRandomSuffix: false,
+          allowOverwrite: true,
           contentType: "application/json",
         });
       } catch {
         blob = await put(blobKey, JSON.stringify(content, null, 2), {
           access: "private",
+          addRandomSuffix: true,
           contentType: "application/json",
         });
       }
