@@ -33,8 +33,8 @@ const Footer = ({ signoffText: customSignoff }: FooterProps) => {
     return (
         <footer id="contact" className="w-full bg-[#160F0D] pt-14 pb-8 px-6 text-center text-white">
             <div className="max-w-4xl mx-auto space-y-10">
-                {/* Dramatic Sign-off in Light Golden Cream */}
-                <h2 className="font-serif italic text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#F5E6C8] select-none drop-shadow-md">
+                {/* Dramatic Sign-off in Warm Golden Color */}
+                <h2 className="font-serif italic text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#F5C86C] select-none drop-shadow-md">
                     {signoffText}
                 </h2>
 

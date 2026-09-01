@@ -385,9 +385,9 @@ const Index = () => {
           <img
             src={cucinaLogo}
             alt="Cucina SA"
-            className="h-20 sm:h-28 md:h-36 w-auto mix-blend-screen drop-shadow-2xl mb-3"
+            className="h-20 sm:h-28 md:h-36 w-auto mix-blend-screen drop-shadow-2xl mb-0.5"
           />
-          <p className="font-serif italic text-base sm:text-xl md:text-2xl text-[#F5E6C8] tracking-widest uppercase font-light drop-shadow-lg">
+          <p className="font-serif italic text-base sm:text-xl md:text-2xl text-[#F5C86C] tracking-widest uppercase font-light drop-shadow-lg -mt-1">
             San Anselmo, California
           </p>
         </div>
@@ -399,34 +399,34 @@ const Index = () => {
           href={RESERVATIONS_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="py-4 md:py-5 font-display text-[10px] sm:text-xs font-semibold tracking-[0.2em] text-[#EDE4D7] hover:bg-white/5 hover:text-[#F5E6C8] transition-colors uppercase flex items-center justify-center px-2"
+          className="py-4 md:py-5 font-display text-[10px] sm:text-xs font-semibold tracking-[0.2em] text-[#EDE4D7] hover:bg-white/5 hover:text-[#F5C86C] transition-colors uppercase flex items-center justify-center px-2"
         >
           RESERVATIONS
         </a>
         <Link
           to="/menu"
-          className="py-4 md:py-5 font-display text-[10px] sm:text-xs font-semibold tracking-[0.2em] text-[#EDE4D7] hover:bg-white/5 hover:text-[#F5E6C8] transition-colors uppercase flex items-center justify-center px-2"
+          className="py-4 md:py-5 font-display text-[10px] sm:text-xs font-semibold tracking-[0.2em] text-[#EDE4D7] hover:bg-white/5 hover:text-[#F5C86C] transition-colors uppercase flex items-center justify-center px-2"
         >
           VIEW MENU
         </Link>
         <button
           onClick={() => setActiveMenuModal("happy")}
-          className="py-4 md:py-5 font-display text-[10px] sm:text-xs font-semibold tracking-[0.2em] text-[#EDE4D7] hover:bg-white/5 hover:text-[#F5E6C8] transition-colors uppercase flex items-center justify-center px-2"
+          className="py-4 md:py-5 font-display text-[10px] sm:text-xs font-semibold tracking-[0.2em] text-[#EDE4D7] hover:bg-white/5 hover:text-[#F5C86C] transition-colors uppercase flex items-center justify-center px-2"
         >
           HAPPY HOUR MENU
         </button>
         <button
           onClick={() => setShowHoursModal(true)}
-          className="py-4 md:py-5 font-display text-[10px] sm:text-xs font-semibold tracking-[0.2em] text-[#EDE4D7] hover:bg-white/5 hover:text-[#F5E6C8] transition-colors uppercase flex items-center justify-center px-2"
+          className="py-4 md:py-5 font-display text-[10px] sm:text-xs font-semibold tracking-[0.2em] text-[#EDE4D7] hover:bg-white/5 hover:text-[#F5C86C] transition-colors uppercase flex items-center justify-center px-2"
         >
           HOURS + LOCATION
         </button>
-        <a
-          href="#our-story"
-          className="py-4 md:py-5 font-display text-[10px] sm:text-xs font-semibold tracking-[0.2em] text-[#EDE4D7] hover:bg-white/5 hover:text-[#F5E6C8] transition-colors uppercase flex items-center justify-center px-2 col-span-2 sm:col-span-1"
+        <Link
+          to="/story"
+          className="py-4 md:py-5 font-display text-[10px] sm:text-xs font-semibold tracking-[0.2em] text-[#EDE4D7] hover:bg-white/5 hover:text-[#F5C86C] transition-colors uppercase flex items-center justify-center px-2 col-span-2 sm:col-span-1"
         >
           OUR STORY
-        </a>
+        </Link>
       </div>
 
       <main>
@@ -440,8 +440,8 @@ const Index = () => {
                 {heroData.headline}
               </h1>
 
-              {/* Subtitle Line in 2 Dramatic Lines with Light Golden Cream */}
-              <div className="font-serif italic text-2xl sm:text-3xl lg:text-[2.1rem] my-6 text-[#F5E6C8] leading-tight drop-shadow-sm space-y-1">
+              {/* Subtitle Line in 2 Dramatic Lines with Vibrant Yellow/Gold */}
+              <div className="font-serif italic text-2xl sm:text-3xl lg:text-[2.1rem] my-6 text-[#F5C86C] leading-tight drop-shadow-sm space-y-1">
                 <p className="block">Italian at heart.</p>
                 <p className="block">San Anselmo through and through.</p>
               </div>
@@ -465,29 +465,11 @@ const Index = () => {
           </div>
         </section>
 
-        {/* OUR STORY SECTION - Featuring Hand-Drawn Storefront Illustration & Woman Owned Badge */}
-        <section id="our-story" className="w-full border-y border-[#3B2C27] bg-[#130D0C] py-14 md:py-20 px-6">
+        {/* COMMUNITY SECTION - Featuring 3 Photos Grid on Right (Matching Photo 1) */}
+        <section id="community" className="w-full border-y border-[#3B2C27] bg-[#130D0C] py-14 md:py-20 px-6">
           <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-14 items-center">
-            {/* Left Column: Sketch Illustration */}
-            <div className="md:col-span-5 flex justify-center items-center">
-              <div className="relative p-4 bg-[#EDE4D7]/5 border border-[#3B2C27] rounded-sm shadow-2xl max-w-sm w-full">
-                <img
-                  src={cucinaIllustration}
-                  alt="Illustration of Cucina SA storefront"
-                  className="w-full h-auto object-contain rounded-xs opacity-95 filter brightness-105 contrast-105"
-                />
-              </div>
-            </div>
-
-            {/* Right Column: Story Text & Woman Owned Badge */}
-            <div className="md:col-span-7 flex flex-col justify-center text-left space-y-5">
-              <div className="inline-flex items-center gap-2.5 self-start bg-[#F5E6C8]/10 border border-[#F5E6C8]/30 px-3.5 py-1.5 rounded-full">
-                <span className="w-2 h-2 rounded-full bg-[#F5E6C8] animate-pulse" />
-                <span className="font-display text-[10px] md:text-xs tracking-[0.2em] font-semibold text-[#F5E6C8] uppercase">
-                  WOMAN OWNED & OPERATED
-                </span>
-              </div>
-
+            {/* Left Column: Community Text & Links */}
+            <div className="md:col-span-6 flex flex-col justify-center text-left space-y-5">
               <h2 className="font-display text-base sm:text-lg md:text-xl tracking-[0.22em] font-semibold text-[#EDE4D7] uppercase leading-relaxed">
                 {communityData.heading}
               </h2>
@@ -496,22 +478,59 @@ const Index = () => {
                 {communityData.paragraph}
               </p>
 
-              {/* CTA Stack in Light Golden Cream */}
-              <div className="pt-4 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+              {/* Italicized Script Link in Vibrant Yellow Gold */}
+              <div className="pt-2">
                 <a
                   href="mailto:info@cucina-sa.com?subject=Private%20Event%20Inquiry"
-                  className="font-serif italic text-xl text-[#F5E6C8] hover:text-white transition-colors"
+                  className="font-serif italic text-2xl sm:text-3xl md:text-4xl text-[#F5C86C] hover:text-white transition-colors block"
                 >
                   Book us for your next celebration
                 </a>
+              </div>
+
+              {/* Navigation CTA Links */}
+              <div className="pt-3 flex flex-wrap items-center gap-6">
                 <a
                   href={RESERVATIONS_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-display text-xs tracking-[0.2em] font-semibold text-[#EDE4D7] hover:text-[#F5E6C8] transition-colors uppercase border-b border-[#EDE4D7] pb-0.5"
+                  className="font-display text-xs tracking-[0.2em] font-semibold text-[#EDE4D7] hover:text-[#F5C86C] transition-colors uppercase border-b border-[#EDE4D7] pb-0.5"
                 >
                   RESERVATIONS
                 </a>
+                <button
+                  onClick={() => setShowHoursModal(true)}
+                  className="font-display text-xs tracking-[0.2em] font-semibold text-[#EDE4D7] hover:text-[#F5C86C] transition-colors uppercase border-b border-[#EDE4D7] pb-0.5"
+                >
+                  CONTACT US
+                </button>
+                <Link
+                  to="/story"
+                  className="font-display text-xs tracking-[0.2em] font-semibold text-[#EDE4D7] hover:text-[#F5C86C] transition-colors uppercase border-b border-[#EDE4D7] pb-0.5"
+                >
+                  OUR STORY
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Column: 3 Vertical Photos Grid (Matching Photo 1) */}
+            <div className="md:col-span-6">
+              <div className="grid grid-cols-3 gap-1.5 md:gap-3 border border-white/10 p-1.5 bg-[#160F0D] shadow-2xl">
+                <img
+                  src={cucinaSalad}
+                  alt="Seasonal salad with citrus and burrata"
+                  className="w-full h-64 sm:h-72 md:h-80 object-cover"
+                />
+                <img
+                  src={cucinaWine}
+                  alt="Bottle of wine with a glass"
+                  className="w-full h-64 sm:h-72 md:h-80 object-cover"
+                />
+                <img
+                  src={cucinaPasta}
+                  alt="Spaghetti with tomato sauce"
+                  className="w-full h-64 sm:h-72 md:h-80 object-cover"
+                />
               </div>
             </div>
           </div>

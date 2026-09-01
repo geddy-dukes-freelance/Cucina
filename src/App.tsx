@@ -6,6 +6,7 @@ import { ThemeProvider } from "next-themes";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import MenuPage from "./pages/Menu";
+import Story from "./pages/Story";
 import OwnerPortal from "./pages/OwnerPortal";
 import NotFound from "./pages/NotFound";
 
@@ -21,6 +22,8 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/menu" element={<MenuPage />} />
+            <Route path="/story" element={<Story />} />
+            <Route path="/about" element={<Story />} />
             <Route path="/portal" element={<OwnerPortal />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
