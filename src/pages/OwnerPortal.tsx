@@ -103,6 +103,18 @@ const OwnerPortal = () => {
           if (!menuData && mStatic.ok) menuData = (await mStatic.json()) as MenuContent;
         }
 
+        try {
+          const specialsRes = await fetch("/api/specials", { cache: "no-store" });
+          if (specialsRes.ok) {
+            const liveSpecials = (await specialsRes.json()) as MenuContent["specials"];
+            if (liveSpecials && Array.isArray(liveSpecials.categories) && menuData) {
+              menuData.specials = liveSpecials;
+            }
+          }
+        } catch {
+          // Fallback
+        }
+
         if (homeData) setHomeContent(homeData);
         if (menuData) setMenuContent(menuData);
         setStatus("Content loaded.");
