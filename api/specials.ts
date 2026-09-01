@@ -19,13 +19,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       if (blobs.blobs.length > 0) {
         const latestBlob = blobs.blobs[0];
         const targetUrl = latestBlob.downloadUrl || latestBlob.url;
-        const blobRes = await fetch(`${targetUrl}?t=${Date.now()}`, { cache: "no-store" });
-        if (blobRes.ok) {
-          const data = await blobRes.json();
-          return res.status(200).json(data);
-        }
         try {
-          const privateBlob = await get("content/specials.json", { access: "private" });
+          const blobRes = await fetch(`${targetUrl}?t=${Date.now()}`, { cache: "no-store" });
+          if (blobRes.ok) {
+            const data = await blobRes.json();
+            return res.status(200).json(data);
+          }
+        } catch {
+          // Fallback
+        }
+
+        try {
+          const privateBlob = await get(latestBlob.pathname || "content/specials.json", { access: "private" });
           if (privateBlob) {
             const text = await new Response(privateBlob.stream).text();
             return res.status(200).json(JSON.parse(text));
@@ -73,21 +78,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       let blob;
       try {
         blob = await put("content/specials.json", JSON.stringify(specials, null, 2), {
+          access: "private",
           addRandomSuffix: false,
           contentType: "application/json",
         });
-      } catch (err1) {
-        try {
-          blob = await put("content/specials.json", JSON.stringify(specials, null, 2), {
-            access: "public",
-            addRandomSuffix: false,
-            contentType: "application/json",
-          });
-        } catch (err2) {
-          throw new Error(
-            `Private put error: ${err1 instanceof Error ? err1.message : String(err1)} | Public put error: ${err2 instanceof Error ? err2.message : String(err2)}`
-          );
-        }
+      } catch {
+        blob = await put("content/specials.json", JSON.stringify(specials, null, 2), {
+          access: "private",
+          contentType: "application/json",
+        });
       }
       return res.status(200).json({ ok: true, url: blob.url, specials });
     } catch (blobErr) {
