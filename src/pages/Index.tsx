@@ -518,7 +518,7 @@ const Index = () => {
         </section>
 
         {/* SECTION 3 - Food & Wine Photos Gallery */}
-        <section className="max-w-6xl mx-auto px-6 py-12 md:py-16">
+        <section className="max-w-6xl mx-auto px-6 pt-12 md:pt-16 pb-4">
           <div className="grid grid-cols-3 gap-1.5 md:gap-3 border border-white/10 p-1.5 bg-[#130D0C] shadow-2xl">
             <img
               src={cucinaSalad}
