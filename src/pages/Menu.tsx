@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import MenuCategoryList from "@/components/MenuCategoryList";
 import type { MenuCategory, MenuContent } from "@/types/content";
 
-const cucinaLogo = "/assets/cucina-logo.png";
+const cucinaSaDarkLogo = "/assets/cucina-sa-logo-dark.png";
 
 const RESERVATIONS_URL = "https://resy.com/cities/san-anselmo-ca/venues/cucina-sa?seats=2&date=2026-04-29";
 const ORDER_ONLINE_URL = "https://order.toasttab.com/online/cucina-sa";
@@ -87,7 +87,7 @@ const MenuPage = () => {
       {/* Top Header Nav in Light Theme */}
       <header className="w-full bg-[#E3D7C5] border-b border-[#3B2C27]/20 px-6 py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
-          <img src={cucinaLogo} alt="Cucina" className="h-7 md:h-8" />
+          <img src={cucinaSaDarkLogo} alt="Cucina SA" className="h-8 md:h-10 w-auto" />
         </Link>
 
         <div className="flex items-center gap-6 text-xs font-display tracking-[0.18em] text-[#3B2C27]">
