@@ -7,8 +7,8 @@ import MenuCategoryList from "@/components/MenuCategoryList";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import type { HomeContent, HomeModal, MenuCategory, MenuContent } from "@/types/content";
 
-const cucinaLogo = "/assets/cucina-logo-transparent.png";
-const cucinaIllustration = "/assets/cucina-illustration.png";
+const cucinaLogo = "/assets/cucina-sa-logo-gold.png";
+const cucinaIllustration = "/assets/cucina-illustration-transparent.png";
 const cucinaStorefrontNew = "/assets/cucina-storefront-new.jpg";
 const cucinaPasta = "/assets/cucina-pasta.jpeg";
 const cucinaWine = "/assets/cucina-wine.jpeg";
@@ -326,7 +326,7 @@ const Index = () => {
         {/* Top Floating Header Links over Video */}
         <div className="absolute top-4 left-6 right-6 z-20 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <img src={cucinaLogo} alt="Cucina" className="h-7 md:h-9 opacity-95 mix-blend-screen drop-shadow-md" />
+            <img src={cucinaLogo} alt="Cucina SA" className="h-8 md:h-10 w-auto drop-shadow-md" />
           </Link>
 
           <div className="flex items-center gap-3">
@@ -370,9 +370,9 @@ const Index = () => {
                     <button onClick={() => { setNavOpen(false); setShowHoursModal(true); }} className="font-display text-sm tracking-[0.2em] text-[#EDE4D7] uppercase text-left hover:opacity-70">
                       Hours + Location
                     </button>
-                    <a href="#our-story" onClick={() => setNavOpen(false)} className="font-display text-sm tracking-[0.2em] text-[#EDE4D7] uppercase text-left hover:opacity-70">
+                    <Link to="/story" onClick={() => setNavOpen(false)} className="font-display text-sm tracking-[0.2em] text-[#EDE4D7] uppercase text-left hover:opacity-70">
                       Our Story
-                    </a>
+                    </Link>
                   </div>
                 </SheetContent>
               </Sheet>
@@ -385,7 +385,7 @@ const Index = () => {
           <img
             src={cucinaLogo}
             alt="Cucina SA"
-            className="h-20 sm:h-28 md:h-36 w-auto mix-blend-screen drop-shadow-2xl mb-0.5"
+            className="h-16 sm:h-24 md:h-28 w-auto drop-shadow-2xl mb-1"
           />
           <p className="font-serif italic text-base sm:text-xl md:text-2xl text-[#F5C86C] tracking-widest uppercase font-light drop-shadow-lg -mt-1">
             San Anselmo, California

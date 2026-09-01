@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
-const cucinaLogo = "/assets/cucina-logo.png";
+const cucinaLogo = "/assets/cucina-sa-logo-gold.png";
 
 const RESERVATIONS_URL = "https://resy.com/cities/san-anselmo-ca/venues/cucina-sa?seats=2&date=2026-04-29";
 const ORDER_ONLINE_URL = "https://order.toasttab.com/online/cucina-sa";
@@ -36,8 +36,8 @@ const SiteNav = ({ variant = "overlay" }: SiteNavProps) => {
     <nav className={`${variant === "overlay" ? "absolute top-0 left-0 z-20" : "relative z-20"} w-full flex justify-between items-center px-6 md:px-8 py-3 md:py-4 ${bgClass}`}>
       {/* Logo - visible on solid nav */}
       {variant === "solid" && (
-        <Link to="/">
-          <img src={cucinaLogo} alt="Cucina" className="h-8 md:h-6 mix-blend-screen" />
+        <Link to="/" className="flex items-center gap-2">
+          <img src={cucinaLogo} alt="Cucina SA" className="h-8 md:h-10 w-auto" />
         </Link>
       )}
 

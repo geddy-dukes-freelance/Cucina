@@ -3,7 +3,7 @@ import SiteNav from "@/components/SiteNav";
 import Footer from "@/components/Footer";
 import type { HomeContent } from "@/types/content";
 
-const cucinaIllustration = "/assets/cucina-illustration.png";
+const cucinaIllustration = "/assets/cucina-illustration-transparent.png";
 
 const DEFAULT_STORY_PARAGRAPHS = [
   "At Cucina, modern Italian cuisine meets the freshness and abundance of California's seasonal ingredients.",
