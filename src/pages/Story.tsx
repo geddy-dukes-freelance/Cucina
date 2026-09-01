@@ -52,14 +52,14 @@ const Story = () => {
       <SiteNav variant="solid" />
 
       <main className="flex-grow max-w-6xl mx-auto px-6 py-12 md:py-20 lg:py-24">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-center">
           {/* Left Column: Story Text */}
-          <div className="md:col-span-7 space-y-6 text-left">
-            <h1 className="font-serif italic text-4xl sm:text-5xl md:text-6xl text-[#F5C86C] drop-shadow-md">
+          <div className="md:col-span-7 space-y-6 text-left max-w-xl">
+            <h1 className="font-serif italic text-3xl sm:text-4xl md:text-5xl text-[#D4A373] font-normal tracking-wide">
               Our Story
             </h1>
 
-            <div className="space-y-5 text-white/90 font-sans text-sm md:text-base leading-relaxed font-light">
+            <div className="space-y-6 text-[#E4D5C7]/90 font-sans text-sm sm:text-base leading-relaxed font-light">
               {paragraphs.map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
@@ -68,11 +68,11 @@ const Story = () => {
 
           {/* Right Column: Architectural Drawing Illustration */}
           <div className="md:col-span-5 flex justify-center items-center">
-            <div className="relative max-w-md w-full p-2">
+            <div className="relative max-w-lg w-full p-2">
               <img
                 src={cucinaIllustration}
                 alt="Architectural drawing of Cucina SA storefront"
-                className="w-full h-auto object-contain filter brightness-110 contrast-105 opacity-90"
+                className="w-full h-auto object-contain filter brightness-105 opacity-95"
               />
             </div>
           </div>

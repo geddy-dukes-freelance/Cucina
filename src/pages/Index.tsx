@@ -536,27 +536,6 @@ const Index = () => {
           </div>
         </section>
 
-        {/* SECTION 3 - Food & Wine Photos Gallery */}
-        <section className="max-w-6xl mx-auto px-6 pt-12 md:pt-16 pb-4">
-          <div className="grid grid-cols-3 gap-1.5 md:gap-3 border border-white/10 p-1.5 bg-[#130D0C] shadow-2xl">
-            <img
-              src={cucinaSalad}
-              alt="Seasonal salad with citrus and burrata"
-              className="w-full h-64 sm:h-72 md:h-80 object-cover"
-            />
-            <img
-              src={cucinaWine}
-              alt="Bottle of wine with a glass"
-              className="w-full h-64 sm:h-72 md:h-80 object-cover"
-            />
-            <img
-              src={cucinaPasta}
-              alt="Spaghetti with tomato sauce"
-              className="w-full h-64 sm:h-72 md:h-80 object-cover"
-            />
-          </div>
-        </section>
-
       </main>
 
       {/* Footer */}
