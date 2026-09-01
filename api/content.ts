@@ -88,16 +88,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       let blob;
       try {
         blob = await put(blobKey, JSON.stringify(content, null, 2), {
-          access: "private",
           addRandomSuffix: false,
           contentType: "application/json",
         });
-      } catch {
-        blob = await put(blobKey, JSON.stringify(content, null, 2), {
-          access: "public",
-          addRandomSuffix: false,
-          contentType: "application/json",
-        });
+      } catch (err1) {
+        try {
+          blob = await put(blobKey, JSON.stringify(content, null, 2), {
+            access: "public",
+            addRandomSuffix: false,
+            contentType: "application/json",
+          });
+        } catch (err2) {
+          throw new Error(
+            `Private put error: ${err1 instanceof Error ? err1.message : String(err1)} | Public put error: ${err2 instanceof Error ? err2.message : String(err2)}`
+          );
+        }
       }
       return res.status(200).json({ ok: true, url: blob.url, path });
     } catch (blobErr) {
