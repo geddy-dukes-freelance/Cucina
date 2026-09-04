@@ -1,4 +1,26 @@
 {
+  "redirects": [
+    { "source": "/dinner-menu/", "destination": "/menu", "permanent": true },
+    { "source": "/dinner-menu", "destination": "/menu", "permanent": true },
+    { "source": "/lunch-menu/", "destination": "/menu", "permanent": true },
+    { "source": "/lunch-menu", "destination": "/menu", "permanent": true },
+    { "source": "/happy-hour/", "destination": "/menu", "permanent": true },
+    { "source": "/happy-hour", "destination": "/menu", "permanent": true },
+    { "source": "/cocktail-menu/", "destination": "/menu", "permanent": true },
+    { "source": "/cocktail-menu", "destination": "/menu", "permanent": true },
+    { "source": "/cucina-wine-club/", "destination": "/", "permanent": true },
+    { "source": "/cucina-wine-club", "destination": "/", "permanent": true },
+    { "source": "/wine-club/", "destination": "/", "permanent": true },
+    { "source": "/wine-club", "destination": "/", "permanent": true },
+    { "source": "/contact-us/", "destination": "/#contact", "permanent": true },
+    { "source": "/contact-us", "destination": "/#contact", "permanent": true },
+    { "source": "/contact/", "destination": "/#contact", "permanent": true },
+    { "source": "/contact", "destination": "/#contact", "permanent": true },
+    { "source": "/about-us/", "destination": "/story", "permanent": true },
+    { "source": "/about-us", "destination": "/story", "permanent": true },
+    { "source": "/our-story/", "destination": "/story", "permanent": true },
+    { "source": "/our-story", "destination": "/story", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/(.*)", "destination": "/index.html" }

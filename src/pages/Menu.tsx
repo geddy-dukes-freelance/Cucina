@@ -36,7 +36,7 @@ const MenuPage = () => {
       try {
         let content: MenuContent | null = null;
         try {
-          const apiRes = await fetch("/api/content?path=public/content/menu.json", { cache: "no-store" });
+          const apiRes = await fetch(`/api/content?path=public/content/menu.json&t=${Date.now()}`, { cache: "no-store" });
           if (apiRes.ok) {
             content = (await apiRes.json()) as MenuContent;
           }
@@ -45,7 +45,7 @@ const MenuPage = () => {
         }
 
         if (!content) {
-          const staticRes = await fetch("/content/menu.json", { cache: "no-store" });
+          const staticRes = await fetch(`/content/menu.json?t=${Date.now()}`, { cache: "no-store" });
           if (!staticRes.ok) {
             throw new Error("Could not load menu content.");
           }
@@ -55,7 +55,7 @@ const MenuPage = () => {
         // Check if there is an explicit live specials override
         let specialsData = content.specials;
         try {
-          const liveSpecialsRes = await fetch("/api/specials", { cache: "no-store" });
+          const liveSpecialsRes = await fetch(`/api/specials?t=${Date.now()}`, { cache: "no-store" });
           if (liveSpecialsRes.ok) {
             const liveSpecials = (await liveSpecialsRes.json()) as MenuContent["specials"];
             if (liveSpecials && Array.isArray(liveSpecials.categories)) {

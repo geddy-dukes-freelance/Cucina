@@ -26,30 +26,52 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     try {
       const blobs = await list({ prefix: blobKey });
       if (blobs.blobs.length > 0) {
-        const latestBlob = blobs.blobs[0];
+        // Sort newest first by uploadedAt so the most recent edit is always loaded
+        const sortedBlobs = [...blobs.blobs].sort(
+          (a, b) => new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
+        );
+        const latestBlob = sortedBlobs[0];
+
+        // 1. Primary method for private store: use get(latestBlob.url) with private access
+        try {
+          const privateBlob = await get(latestBlob.url, { access: "private", useCache: false });
+          if (privateBlob && privateBlob.stream) {
+            const text = await new Response(privateBlob.stream).text();
+            return res.status(200).json(JSON.parse(text));
+          }
+        } catch (getErr) {
+          console.warn("Blob get(latestBlob.url) warning:", getErr);
+        }
+
+        // 2. Secondary method: get by pathname
+        try {
+          const privateBlob = await get(latestBlob.pathname || blobKey, { access: "private", useCache: false });
+          if (privateBlob && privateBlob.stream) {
+            const text = await new Response(privateBlob.stream).text();
+            return res.status(200).json(JSON.parse(text));
+          }
+        } catch (pathnameErr) {
+          console.warn("Blob get(pathname) warning:", pathnameErr);
+        }
+
+        // 3. Tertiary method: direct fetch with authorization bearer token
+        const token = process.env.BLOB_READ_WRITE_TOKEN;
         const targetUrl = latestBlob.downloadUrl || latestBlob.url;
         try {
-          const blobRes = await fetch(`${targetUrl}?t=${Date.now()}`, { cache: "no-store" });
+          const blobRes = await fetch(`${targetUrl}?t=${Date.now()}`, {
+            cache: "no-store",
+            headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+          });
           if (blobRes.ok) {
             const data = await blobRes.json();
             return res.status(200).json(data);
           }
-        } catch {
-          // Fallback
-        }
-
-        try {
-          const privateBlob = await get(latestBlob.pathname || blobKey, { access: "private" });
-          if (privateBlob) {
-            const text = await new Response(privateBlob.stream).text();
-            return res.status(200).json(JSON.parse(text));
-          }
-        } catch {
-          // Fallback
+        } catch (fetchErr) {
+          console.warn("Blob direct fetch warning:", fetchErr);
         }
       }
-    } catch {
-      // Fallback
+    } catch (listErr) {
+      console.warn("Vercel Blob list error:", listErr);
     }
 
     try {

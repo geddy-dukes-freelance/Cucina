@@ -83,9 +83,10 @@ const OwnerPortal = () => {
         let menuData: MenuContent | null = null;
 
         try {
+          const timestamp = Date.now();
           const [hRes, mRes] = await Promise.all([
-            fetch("/api/content?path=public/content/home.json", { cache: "no-store" }),
-            fetch("/api/content?path=public/content/menu.json", { cache: "no-store" }),
+            fetch(`/api/content?path=public/content/home.json&t=${timestamp}`, { cache: "no-store" }),
+            fetch(`/api/content?path=public/content/menu.json&t=${timestamp}`, { cache: "no-store" }),
           ]);
           if (hRes.ok) homeData = (await hRes.json()) as HomeContent;
           if (mRes.ok) menuData = (await mRes.json()) as MenuContent;
@@ -95,8 +96,8 @@ const OwnerPortal = () => {
 
         if (!homeData || !menuData) {
           const [hStatic, mStatic] = await Promise.all([
-            fetch("/content/home.json", { cache: "no-store" }),
-            fetch("/content/menu.json", { cache: "no-store" }),
+            fetch(`/content/home.json?t=${Date.now()}`, { cache: "no-store" }),
+            fetch(`/content/menu.json?t=${Date.now()}`, { cache: "no-store" }),
           ]);
 
           if (!homeData && hStatic.ok) homeData = (await hStatic.json()) as HomeContent;
@@ -104,7 +105,7 @@ const OwnerPortal = () => {
         }
 
         try {
-          const specialsRes = await fetch("/api/specials", { cache: "no-store" });
+          const specialsRes = await fetch(`/api/specials?t=${Date.now()}`, { cache: "no-store" });
           if (specialsRes.ok) {
             const liveSpecials = (await specialsRes.json()) as MenuContent["specials"];
             if (liveSpecials && Array.isArray(liveSpecials.categories) && menuData) {
