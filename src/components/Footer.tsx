@@ -47,11 +47,29 @@ const Footer = ({ signoffText: customSignoff }: FooterProps) => {
                     />
                 </div>
 
-                {/* Contact Information Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 text-center text-[#EDE4D7]">
+                {/* Contact Information & Hours Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-6 text-center text-[#EDE4D7]">
+                    <div>
+                        <p className="font-display text-[10px] md:text-xs tracking-[0.2em] uppercase text-[#F5E6C8]/80 mb-1">HOURS</p>
+                        <p className="font-sans text-sm text-white/95 font-medium">Tue – Sun 11:30 AM – 9:00 PM</p>
+                        <div className="text-xs text-white/75 space-y-0.5 mt-1">
+                            <p>Lunch: 11:30 AM – 3:00 PM</p>
+                            <p>Happy Hour: 3:00 PM – 5:00 PM</p>
+                            <p>Dinner: 5:00 PM – 9:00 PM</p>
+                        </div>
+                        <p className="font-sans text-xs text-[#F5E6C8]/70 italic mt-1.5">Closed Monday</p>
+                    </div>
+
                     <div>
                         <p className="font-display text-[10px] md:text-xs tracking-[0.2em] uppercase text-[#F5E6C8]/80 mb-1">LOCATION</p>
-                        <p className="font-sans text-sm text-white/90">518 San Anselmo Ave<br />San Anselmo, CA 94960</p>
+                        <a
+                            href="https://maps.google.com/?q=510+San+Anselmo+Ave,+San+Anselmo,+CA+94960"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-sans text-sm text-white/90 hover:text-[#F5E6C8] transition-colors block"
+                        >
+                            510 San Anselmo Ave<br />San Anselmo, CA 94960
+                        </a>
                     </div>
 
                     <div>

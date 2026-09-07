@@ -252,7 +252,7 @@ const Index = () => {
                 <MapPin className="w-5 h-5 text-[#EDE4D7] shrink-0 mt-1" />
                 <div>
                   <h4 className="font-display text-xs tracking-widest text-[#EDE4D7] uppercase mb-1">Address</h4>
-                  <p className="font-sans text-sm text-white/90">518 San Anselmo Ave, San Anselmo, CA 94960</p>
+                  <p className="font-sans text-sm text-white/90">510 San Anselmo Ave, San Anselmo, CA 94960</p>
                 </div>
               </div>
 
@@ -260,9 +260,13 @@ const Index = () => {
                 <Clock className="w-5 h-5 text-[#EDE4D7] shrink-0 mt-1" />
                 <div>
                   <h4 className="font-display text-xs tracking-widest text-[#EDE4D7] uppercase mb-1">Hours</h4>
-                  <p className="font-sans text-sm text-white/90"><span className="text-[#EDE4D7] font-medium">Dinner:</span> Sun – Thu 5:00 PM – 9:00 PM</p>
-                  <p className="font-sans text-sm text-white/90"><span className="text-[#EDE4D7] font-medium">Dinner:</span> Fri – Sat 5:00 PM – 9:30 PM</p>
-                  <p className="font-sans text-sm text-white/90 mt-1"><span className="text-[#EDE4D7] font-medium">Happy Hour:</span> Daily 4:30 PM – 5:30 PM</p>
+                  <p className="font-sans text-sm font-medium text-[#F5C86C]">Tuesday – Sunday: 11:30 AM – 9:00 PM</p>
+                  <div className="mt-1.5 space-y-0.5 text-xs text-white/90">
+                    <p><span className="text-[#EDE4D7] font-medium">Lunch:</span> 11:30 AM – 3:00 PM</p>
+                    <p><span className="text-[#EDE4D7] font-medium">Happy Hour:</span> 3:00 PM – 5:00 PM</p>
+                    <p><span className="text-[#EDE4D7] font-medium">Dinner:</span> 5:00 PM – 9:00 PM</p>
+                  </div>
+                  <p className="font-sans text-xs text-[#EDE4D7]/70 italic mt-2">Closed Monday</p>
                 </div>
               </div>
 
@@ -294,7 +298,7 @@ const Index = () => {
 
             <div className="mt-8 pt-6 border-t border-[#3B2C27] flex flex-col sm:flex-row gap-3 justify-center">
               <a
-                href="https://maps.google.com/?q=518+San+Anselmo+Ave,+San+Anselmo,+CA+94960"
+                href="https://maps.google.com/?q=510+San+Anselmo+Ave,+San+Anselmo,+CA+94960"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-[#EDE4D7] text-[#160F0D] font-display text-xs tracking-widest py-3 px-6 uppercase font-semibold hover:opacity-90 transition-opacity text-center"
@@ -320,9 +324,9 @@ const Index = () => {
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-85"
+          className="absolute inset-0 w-full h-full object-cover opacity-100 filter brightness-[1.3] contrast-[1.05]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#160F0D] via-black/35 to-black/65" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#160F0D] via-black/15 to-black/30" />
 
         {/* Top Floating Header Links over Video */}
         <div className="absolute top-4 left-6 right-6 z-20 flex items-center justify-between">
@@ -374,6 +378,10 @@ const Index = () => {
                     <Link to="/story" onClick={() => setNavOpen(false)} className="font-display text-sm tracking-[0.2em] text-[#EDE4D7] uppercase text-left hover:opacity-70">
                       Our Story
                     </Link>
+                    <a href="https://instagram.com/cucina_sa" target="_blank" rel="noopener noreferrer" onClick={() => setNavOpen(false)} className="font-display text-sm tracking-[0.2em] text-[#EDE4D7] uppercase hover:opacity-70 flex items-center gap-2">
+                      <Instagram className="w-4 h-4 text-[#F5C86C]" />
+                      Instagram
+                    </a>
                   </div>
                 </SheetContent>
               </Sheet>
@@ -386,16 +394,16 @@ const Index = () => {
           <img
             src={cucinaFullLogo}
             alt="Cucina SA"
-            className="h-20 sm:h-28 md:h-36 w-auto mix-blend-screen drop-shadow-2xl mb-1"
+            className="h-20 sm:h-28 md:h-36 w-auto mix-blend-screen drop-shadow-[0_10px_30px_rgba(0,0,0,0.85)] mb-1"
           />
-          <p className="font-serif italic text-base sm:text-xl md:text-2xl text-[#F5C86C] tracking-widest uppercase font-light drop-shadow-lg -mt-1">
+          <p className="font-serif italic text-base sm:text-xl md:text-2xl text-[#F5C86C] tracking-widest uppercase font-light drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)] -mt-1">
             San Anselmo, California
           </p>
         </div>
       </section>
 
-      {/* TOP ACTION NAV BAR (5 ITEMS) */}
-      <div className="w-full bg-[#160F0D] border-y border-[#3B2C27] grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 text-center divide-x divide-y sm:divide-y-0 divide-[#3B2C27]">
+      {/* TOP ACTION NAV BAR (6 ITEMS) */}
+      <div className="w-full bg-[#160F0D] border-y border-[#3B2C27] grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 text-center divide-x divide-y sm:divide-y-0 divide-[#3B2C27]">
         <a
           href={RESERVATIONS_URL}
           target="_blank"
@@ -424,10 +432,19 @@ const Index = () => {
         </button>
         <Link
           to="/story"
-          className="py-4 md:py-5 font-display text-[10px] sm:text-xs font-semibold tracking-[0.2em] text-[#EDE4D7] hover:bg-white/5 hover:text-[#F5C86C] transition-colors uppercase flex items-center justify-center px-2 col-span-2 sm:col-span-1"
+          className="py-4 md:py-5 font-display text-[10px] sm:text-xs font-semibold tracking-[0.2em] text-[#EDE4D7] hover:bg-white/5 hover:text-[#F5C86C] transition-colors uppercase flex items-center justify-center px-2"
         >
           OUR STORY
         </Link>
+        <a
+          href="https://instagram.com/cucina_sa"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="py-4 md:py-5 font-display text-[10px] sm:text-xs font-semibold tracking-[0.2em] text-[#EDE4D7] hover:bg-white/5 hover:text-[#F5C86C] transition-colors uppercase flex items-center justify-center gap-1.5 px-2"
+        >
+          <Instagram className="w-3.5 h-3.5 text-[#F5C86C]" />
+          <span>INSTAGRAM</span>
+        </a>
       </div>
 
       <main>
@@ -532,6 +549,15 @@ const Index = () => {
                 >
                   OUR STORY
                 </Link>
+                <a
+                  href="https://instagram.com/cucina_sa"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-display text-xs tracking-[0.2em] font-semibold text-[#EDE4D7] hover:text-[#F5C86C] transition-colors uppercase border-b border-[#EDE4D7] pb-0.5 flex items-center gap-1.5"
+                >
+                  <Instagram className="w-3.5 h-3.5 text-[#F5C86C]" />
+                  <span>INSTAGRAM</span>
+                </a>
               </div>
             </div>
           </div>
