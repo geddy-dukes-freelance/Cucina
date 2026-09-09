@@ -19,6 +19,25 @@ export default defineConfig(() => ({
       configureServer(server) {
         server.middlewares.use((req, res, next) => {
           if (req.url?.startsWith("/api/content")) {
+            if (req.method === "POST") {
+              let body = "";
+              req.on("data", (chunk) => { body += chunk; });
+              req.on("end", () => {
+                try {
+                  const { path: savePath, content } = JSON.parse(body);
+                  if (savePath && content) {
+                    const filePath = path.resolve(__dirname, savePath);
+                    fs.writeFileSync(filePath, JSON.stringify(content, null, 2), "utf-8");
+                    res.setHeader("Content-Type", "application/json");
+                    return res.end(JSON.stringify({ ok: true, path: savePath }));
+                  }
+                } catch (e) {
+                  res.statusCode = 500;
+                  return res.end(JSON.stringify({ error: String(e) }));
+                }
+              });
+              return;
+            }
             const urlObj = new URL(req.url, "http://localhost:8080");
             const requestedPath = urlObj.searchParams.get("path") || "public/content/menu.json";
             const filePath = path.resolve(__dirname, requestedPath);
@@ -28,6 +47,25 @@ export default defineConfig(() => ({
             }
           }
           if (req.url?.startsWith("/api/specials")) {
+            if (req.method === "POST") {
+              let body = "";
+              req.on("data", (chunk) => { body += chunk; });
+              req.on("end", () => {
+                try {
+                  const { specials } = JSON.parse(body);
+                  if (specials) {
+                    const filePath = path.resolve(__dirname, "public/content/specials.json");
+                    fs.writeFileSync(filePath, JSON.stringify(specials, null, 2), "utf-8");
+                    res.setHeader("Content-Type", "application/json");
+                    return res.end(JSON.stringify({ ok: true }));
+                  }
+                } catch (e) {
+                  res.statusCode = 500;
+                  return res.end(JSON.stringify({ error: String(e) }));
+                }
+              });
+              return;
+            }
             const filePath = path.resolve(__dirname, "public/content/specials.json");
             if (fs.existsSync(filePath)) {
               res.setHeader("Content-Type", "application/json");

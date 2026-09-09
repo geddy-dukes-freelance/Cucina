@@ -15,6 +15,7 @@ const TABS = [
   { key: "dinner", label: "Dinner" },
   { key: "lunch", label: "Lunch & Brunch" },
   { key: "happy", label: "Happy Hour" },
+  { key: "cocktails", label: "Specialty Cocktails" },
 ] as const;
 
 type TabKey = typeof TABS[number]["key"];
@@ -24,6 +25,7 @@ const EMPTY_MENUS: Record<TabKey, { title: string; data: MenuCategory[] }> = {
   dinner: { title: "SEASONAL DINNER MENU", data: [] },
   lunch: { title: "LUNCH & BRUNCH MENU", data: [] },
   happy: { title: "HAPPY HOUR MENU", data: [] },
+  cocktails: { title: "SPECIALTY COCKTAILS", data: [] },
 };
 
 const MenuPage = () => {
@@ -71,6 +73,7 @@ const MenuPage = () => {
           dinner: { title: content.menus?.dinner?.title || "SEASONAL DINNER MENU", data: content.menus?.dinner?.categories || [] },
           lunch: { title: content.menus?.lunch?.title || "LUNCH & BRUNCH MENU", data: content.menus?.lunch?.categories || [] },
           happy: { title: content.menus?.happy?.title || "HAPPY HOUR MENU", data: content.menus?.happy?.categories || [] },
+          cocktails: { title: content.menus?.cocktails?.title || "SPECIALTY COCKTAILS", data: content.menus?.cocktails?.categories || [] },
         });
       } catch (error) {
         setLoadError(error instanceof Error ? error.message : "Could not load menu content.");

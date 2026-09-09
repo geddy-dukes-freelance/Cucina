@@ -15,6 +15,7 @@ const DEFAULT_MENU_CONTENT: MenuContent = {
     dinner: { title: "DINNER MENU", categories: [] },
     lunch: { title: "LUNCH & BRUNCH MENU", categories: [] },
     happy: { title: "HAPPY HOUR MENU", categories: [] },
+    cocktails: { title: "SPECIALTY COCKTAILS", categories: [] },
   },
 };
 
@@ -25,10 +26,11 @@ const SECTIONS = [
   { key: "dinner", label: "Dinner Menu" },
   { key: "lunch", label: "Lunch Menu" },
   { key: "happy", label: "Happy Hour" },
+  { key: "cocktails", label: "Specialty Cocktails" },
 ] as const;
 
 type SectionKey = typeof SECTIONS[number]["key"];
-type MenuKey = "dinner" | "lunch" | "happy";
+type MenuKey = "dinner" | "lunch" | "happy" | "cocktails";
 
 const newModal = (): HomeModal => ({
   id: `popup-${Date.now()}`,
@@ -69,7 +71,7 @@ const OwnerPortal = () => {
   const [isSaving, setIsSaving] = useState(false);
 
   const activeMenuKey = useMemo<MenuKey | null>(() => {
-    if (activeSection === "dinner" || activeSection === "lunch" || activeSection === "happy") return activeSection;
+    if (activeSection === "dinner" || activeSection === "lunch" || activeSection === "happy" || activeSection === "cocktails") return activeSection;
     return null;
   }, [activeSection]);
 
@@ -117,7 +119,17 @@ const OwnerPortal = () => {
         }
 
         if (homeData) setHomeContent(homeData);
-        if (menuData) setMenuContent(menuData);
+        if (menuData) {
+          setMenuContent({
+            ...DEFAULT_MENU_CONTENT,
+            ...menuData,
+            menus: {
+              ...DEFAULT_MENU_CONTENT.menus,
+              ...menuData.menus,
+              cocktails: menuData.menus?.cocktails || { title: "SPECIALTY COCKTAILS", categories: [] },
+            },
+          });
+        }
         setStatus("Content loaded.");
       } catch (error) {
         setStatus(error instanceof Error ? error.message : "Could not load content.");
@@ -227,14 +239,22 @@ const OwnerPortal = () => {
     }));
   };
 
-  const updateMenuSection = (menuKey: MenuKey, patch: Partial<MenuContent["menus"][MenuKey]>) => {
-    setMenuContent((current) => ({
-      ...current,
-      menus: {
-        ...current.menus,
-        [menuKey]: { ...current.menus[menuKey], ...patch },
-      },
-    }));
+  const updateMenuSection = (menuKey: MenuKey, patch: Partial<MenuSection>) => {
+    setMenuContent((current) => {
+      const existing = current.menus[menuKey] || { title: "", categories: [] };
+      return {
+        ...current,
+        menus: {
+          ...current.menus,
+          [menuKey]: { ...existing, ...patch },
+        },
+      };
+    });
+  };
+
+  const getCategories = (section: "specials" | MenuKey): MenuCategory[] => {
+    if (section === "specials") return menuContent.specials.categories || [];
+    return menuContent.menus[section]?.categories || [];
   };
 
   const updateCategory = (
@@ -242,20 +262,12 @@ const OwnerPortal = () => {
     categoryIndex: number,
     patch: Partial<MenuCategory>,
   ) => {
-    if (section === "specials") {
-      updateSpecials({
-        categories: menuContent.specials.categories.map((category, index) =>
-          index === categoryIndex ? { ...category, ...patch } : category,
-        ),
-      });
-      return;
-    }
-
-    updateMenuSection(section, {
-      categories: menuContent.menus[section].categories.map((category, index) =>
-        index === categoryIndex ? { ...category, ...patch } : category,
-      ),
-    });
+    const categories = getCategories(section);
+    const updatedCategories = categories.map((category, index) =>
+      index === categoryIndex ? { ...category, ...patch } : category,
+    );
+    if (section === "specials") updateSpecials({ categories: updatedCategories });
+    else updateMenuSection(section, { categories: updatedCategories });
   };
 
   const updateItem = (
@@ -264,7 +276,7 @@ const OwnerPortal = () => {
     itemIndex: number,
     patch: Partial<MenuItem>,
   ) => {
-    const categories = section === "specials" ? menuContent.specials.categories : menuContent.menus[section].categories;
+    const categories = getCategories(section);
     const updatedCategories = categories.map((category, index) =>
       index === categoryIndex
         ? {
@@ -281,22 +293,23 @@ const OwnerPortal = () => {
   };
 
   const addCategory = (section: "specials" | MenuKey) => {
+    const categories = getCategories(section);
     if (section === "specials") {
-      updateSpecials({ categories: [...menuContent.specials.categories, newCategory()] });
+      updateSpecials({ categories: [...categories, newCategory()] });
     } else {
-      updateMenuSection(section, { categories: [...menuContent.menus[section].categories, newCategory()] });
+      updateMenuSection(section, { categories: [...categories, newCategory()] });
     }
   };
 
   const removeCategory = (section: "specials" | MenuKey, categoryIndex: number) => {
-    const categories = section === "specials" ? menuContent.specials.categories : menuContent.menus[section].categories;
+    const categories = getCategories(section);
     const updatedCategories = categories.filter((_, index) => index !== categoryIndex);
     if (section === "specials") updateSpecials({ categories: updatedCategories });
     else updateMenuSection(section, { categories: updatedCategories });
   };
 
   const addItem = (section: "specials" | MenuKey, categoryIndex: number) => {
-    const categories = section === "specials" ? menuContent.specials.categories : menuContent.menus[section].categories;
+    const categories = getCategories(section);
     const updatedCategories = categories.map((category, index) =>
       index === categoryIndex ? { ...category, items: [...category.items, newItem()] } : category,
     );
@@ -305,7 +318,7 @@ const OwnerPortal = () => {
   };
 
   const removeItem = (section: "specials" | MenuKey, categoryIndex: number, itemIndex: number) => {
-    const categories = section === "specials" ? menuContent.specials.categories : menuContent.menus[section].categories;
+    const categories = getCategories(section);
     const updatedCategories = categories.map((category, index) =>
       index === categoryIndex
         ? { ...category, items: category.items.filter((_, currentItemIndex) => currentItemIndex !== itemIndex) }
@@ -316,7 +329,9 @@ const OwnerPortal = () => {
   };
 
   const renderMenuEditor = (section: "specials" | MenuKey) => {
-    const menuSection = section === "specials" ? menuContent.specials : menuContent.menus[section];
+    const menuSection = section === "specials"
+      ? menuContent.specials
+      : (menuContent.menus[section] || { title: "SPECIALTY COCKTAILS", categories: [] });
 
     return (
       <div className="space-y-6">

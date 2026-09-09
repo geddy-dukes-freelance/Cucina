@@ -25,7 +25,7 @@ const DEFAULT_HOME_CONTENT: HomeContent = {
   hero: {
     headline: "At Cucina, modern Italian cuisine meets the freshness and abundance of California's seasonal ingredients.",
     scriptSubtitle: "Italian at heart:\nSan Anselmo through and through.",
-    paragraph: "Our menu brings together Italian inspiration, thoughtfully prepared dishes, and a curated selection of Italian and California wines—all served in a warm, vibrant setting in the heart of San Anselmo.",
+    paragraph: "Our menu brings together Italian inspiration, thoughtfully prepared dishes, full bar, and a curated selection of Italian and California wines—all served in a warm, vibrant setting in the heart of San Anselmo.",
   },
   community: {
     heading: "IN SAN ANSELMO SINCE 1998",

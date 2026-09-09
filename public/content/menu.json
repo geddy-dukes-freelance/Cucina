@@ -568,6 +568,51 @@
           ]
         }
       ]
+    },
+    "cocktails": {
+      "title": "SPECIALTY COCKTAILS",
+      "categories": [
+        {
+          "category": "SIGNATURE CUCINA COCKTAILS",
+          "items": [
+            {
+              "name": "Cucina Cosmo",
+              "description": "st george citrus vodka, aperol, lemon juice",
+              "price": "14"
+            },
+            {
+              "name": "20/20",
+              "description": "marin coastal gin, orgeat, lemon juice, absinthe",
+              "price": "15"
+            },
+            {
+              "name": "Amaro Sour",
+              "description": "averna, bourbon, egg white, lemon juice",
+              "price": "15"
+            },
+            {
+              "name": "S.S.B.",
+              "description": "st. george chile vodka, lillet blanc, grapefruit, lemon",
+              "price": "15"
+            },
+            {
+              "name": "Honey Do!",
+              "description": "tulamore dew honey whiskey, cointreau, lemon, amaro sibona",
+              "price": "14"
+            },
+            {
+              "name": "Yaa! Calexico",
+              "description": "catedral mezcal, gran classico, triple sec, lemon, averna",
+              "price": "15"
+            },
+            {
+              "name": "Pale Fire",
+              "description": "cucina midori, serrano-infused tequila, cointreau, pineapple, lime",
+              "price": "15"
+            }
+          ]
+        }
+      ]
     }
   }
 }

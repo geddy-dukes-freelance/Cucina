@@ -22,6 +22,7 @@ export type MenuContent = {
     dinner: MenuSection;
     lunch: MenuSection;
     happy: MenuSection;
+    cocktails?: MenuSection;
   };
 };
 
