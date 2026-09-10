@@ -1,10 +1,40 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { put, list, get } from "@vercel/blob";
+import { createClient } from "@supabase/supabase-js";
 
 const allowedPaths = new Set([
   "public/content/home.json",
   "public/content/menu.json",
 ]);
+
+function getSupabaseClient() {
+  const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+  const key =
+    process.env.SUPABASE_SECRET_KEY ||
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.SUPABASE_PUBLISHABLE_KEY ||
+    process.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
+    process.env.SUPABASE_ANON_KEY ||
+    process.env.VITE_SUPABASE_ANON_KEY;
+
+  if (url && key) {
+    return createClient(url, key, { auth: { persistSession: false } });
+  }
+  return null;
+}
+
+function normalizeContent(filePath: string, content: any) {
+  if (!content || typeof content !== "object") return content;
+  if (filePath.includes("home.json")) {
+    if (content.hero && content.hero.paragraph && !content.hero.paragraph.includes("full bar")) {
+      content.hero.paragraph = content.hero.paragraph.replace(
+        "thoughtfully prepared dishes, and a curated selection",
+        "thoughtfully prepared dishes, full bar, and a curated selection"
+      );
+    }
+  }
+  return content;
+}
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -17,44 +47,60 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "cucina2026";
+  const supabase = getSupabaseClient();
 
   if (req.method === "GET") {
     const rawPath = (req.query.path as string) || "public/content/menu.json";
     const path = allowedPaths.has(rawPath) ? rawPath : "public/content/menu.json";
-    const blobKey = path.replace("public/", "");
+    const contentKey = path.includes("home.json") ? "home" : "menu";
 
+    // 1. Primary: If Supabase is connected, query site_content table
+    if (supabase) {
+      try {
+        const { data, error } = await supabase
+          .from("site_content")
+          .select("content")
+          .eq("key", contentKey)
+          .maybeSingle();
+
+        if (!error && data?.content) {
+          return res.status(200).json(normalizeContent(path, data.content));
+        }
+      } catch (sbErr) {
+        console.warn("[Supabase] Query error in api/content:", sbErr);
+      }
+    }
+
+    // 2. Secondary fallback: Vercel Blob
+    const blobKey = path.replace("public/", "");
     try {
       const blobs = await list({ prefix: blobKey });
       if (blobs.blobs.length > 0) {
-        // Sort newest first by uploadedAt so the most recent edit is always loaded
         const sortedBlobs = [...blobs.blobs].sort(
           (a, b) => new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
         );
         const latestBlob = sortedBlobs[0];
 
-        // 1. Primary method for private store: use get(latestBlob.url) with private access
         try {
           const privateBlob = await get(latestBlob.url, { access: "private", useCache: false });
           if (privateBlob && privateBlob.stream) {
             const text = await new Response(privateBlob.stream).text();
-            return res.status(200).json(JSON.parse(text));
+            return res.status(200).json(normalizeContent(path, JSON.parse(text)));
           }
         } catch (getErr) {
-          console.warn("Blob get(latestBlob.url) warning:", getErr);
+          console.warn("Blob get error:", getErr);
         }
 
-        // 2. Secondary method: get by pathname
         try {
           const privateBlob = await get(latestBlob.pathname || blobKey, { access: "private", useCache: false });
           if (privateBlob && privateBlob.stream) {
             const text = await new Response(privateBlob.stream).text();
-            return res.status(200).json(JSON.parse(text));
+            return res.status(200).json(normalizeContent(path, JSON.parse(text)));
           }
         } catch (pathnameErr) {
-          console.warn("Blob get(pathname) warning:", pathnameErr);
+          console.warn("Blob pathname error:", pathnameErr);
         }
 
-        // 3. Tertiary method: direct fetch with authorization bearer token
         const token = process.env.BLOB_READ_WRITE_TOKEN;
         const targetUrl = latestBlob.downloadUrl || latestBlob.url;
         try {
@@ -64,16 +110,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
           if (blobRes.ok) {
             const data = await blobRes.json();
-            return res.status(200).json(data);
+            return res.status(200).json(normalizeContent(path, data));
           }
         } catch (fetchErr) {
-          console.warn("Blob direct fetch warning:", fetchErr);
+          console.warn("Blob direct fetch error:", fetchErr);
         }
       }
     } catch (listErr) {
       console.warn("Vercel Blob list error:", listErr);
     }
 
+    // 3. Tertiary fallback: Raw GitHub file
     try {
       const GITHUB_OWNER = process.env.GITHUB_OWNER || "geddy-dukes-freelance";
       const GITHUB_REPO = process.env.GITHUB_REPO || "Cucina";
@@ -82,7 +129,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const response = await fetch(`${url}?t=${Date.now()}`, { cache: "no-store" });
       if (response.ok) {
         const data = await response.json();
-        return res.status(200).json(data);
+        return res.status(200).json(normalizeContent(path, data));
       }
     } catch {
       // Fallback
@@ -110,6 +157,32 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: "Content must be a JSON object." });
     }
 
+    const contentKey = path.includes("home.json") ? "home" : "menu";
+
+    // 1. Primary: Save to Supabase if configured
+    if (supabase) {
+      try {
+        const { error } = await supabase
+          .from("site_content")
+          .upsert(
+            {
+              key: contentKey,
+              content,
+              updated_at: new Date().toISOString(),
+            },
+            { onConflict: "key" }
+          );
+
+        if (!error) {
+          return res.status(200).json({ ok: true, source: "supabase", path, key: contentKey });
+        }
+        console.warn("[Supabase] Upsert error, falling back:", error);
+      } catch (sbErr) {
+        console.warn("[Supabase] Save exception, falling back:", sbErr);
+      }
+    }
+
+    // 2. Secondary fallback: Save to Vercel Blob
     try {
       const blobKey = path.replace("public/", "");
       let blob;
@@ -127,10 +200,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           contentType: "application/json",
         });
       }
-      return res.status(200).json({ ok: true, url: blob.url, path });
+      return res.status(200).json({ ok: true, url: blob.url, path, source: "blob" });
     } catch (blobErr) {
       const blobMsg = blobErr instanceof Error ? blobErr.message : String(blobErr);
 
+      // 3. Fallback: GitHub commit
       const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
       if (GITHUB_TOKEN) {
         try {
@@ -167,7 +241,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             const result = (await updateResponse.json().catch(() => ({}))) as { commit?: { html_url: string }; message?: string };
 
             if (updateResponse.ok) {
-              return res.status(200).json({ ok: true, commit: result.commit?.html_url, path });
+              return res.status(200).json({ ok: true, commit: result.commit?.html_url, path, source: "github" });
             }
           }
         } catch {
@@ -176,7 +250,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       return res.status(400).json({
-        error: `Vercel Blob Storage error: ${blobMsg}`,
+        error: `Storage error: ${blobMsg}`,
       });
     }
   }

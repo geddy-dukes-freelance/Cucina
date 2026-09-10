@@ -37,7 +37,16 @@ const Story = () => {
         }
 
         if (data?.about?.paragraphs && data.about.paragraphs.length > 0) {
-          setParagraphs(data.about.paragraphs);
+          setParagraphs(
+            data.about.paragraphs.map((p) =>
+              p.includes("curated selection of Italian and California wines") && !p.includes("full bar")
+                ? p.replace(
+                    "thoughtfully prepared dishes, and a curated selection",
+                    "thoughtfully prepared dishes, full bar, and a curated selection"
+                  )
+                : p
+            )
+          );
         }
       } catch {
         // Fallback to defaults

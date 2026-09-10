@@ -1,0 +1,31 @@
+name: Supabase Database Keep-Alive
+
+on:
+  schedule:
+    # Runs every 3 days at 12:00 UTC to prevent Supabase inactivity pausing (free tier pauses after 7 days)
+    - cron: '0 12 */3 * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+jobs:
+  ping-database:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Cucina API Keep-Alive Endpoint
+        run: |
+          echo "Sending keep-alive ping to Cucina website..."
+          # Replace or supplement with your production URL if needed
+          RESPONSE=$(curl -s -w "\n%{http_code}" "https://cucina-sa.com/api/ping" || curl -s -w "\n%{http_code}" "https://cucina-sa-replica.vercel.app/api/ping" || true)
+          echo "Response:"
+          echo "$RESPONSE"
+
+      - name: Direct Supabase Ping (if secrets configured)
+        if: ${{ env.SUPABASE_URL != '' && env.SUPABASE_ANON_KEY != '' }}
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          echo "Pinging Supabase REST API directly..."
+          curl -s -X GET "${SUPABASE_URL}/rest/v1/site_content?select=key&limit=1" \
+            -H "apikey: ${SUPABASE_ANON_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_ANON_KEY}"
+          echo -e "\nSupabase ping complete."

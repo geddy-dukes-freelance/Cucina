@@ -14,7 +14,15 @@ const cucinaStorefrontNew = "/assets/cucina-storefront-new.jpg";
 const cucinaPasta = "/assets/cucina-pasta.jpeg";
 const cucinaWine = "/assets/cucina-wine.jpeg";
 const cucinaSalad = "/assets/cucina-salad.jpeg";
+const cucinaCocktails = "/assets/cucina-cocktails.jpg";
 const woodOven = "/assets/wood-oven.jpg";
+
+const COMMUNITY_IMAGES = [
+  { src: cucinaSalad, alt: "Seasonal salad with citrus and burrata" },
+  { src: cucinaCocktails, alt: "Handcrafted signature cocktails" },
+  { src: cucinaPasta, alt: "Fresh pasta with tomato sauce" },
+  { src: cucinaWine, alt: "Curated wine selection" },
+];
 
 const RESERVATIONS_URL = "https://resy.com/cities/san-anselmo-ca/venues/cucina-sa?seats=2&date=2026-04-29";
 const ORDER_ONLINE_URL = "https://order.toasttab.com/online/cucina-sa";
@@ -57,6 +65,14 @@ const Index = () => {
   const [showHoursModal, setShowHoursModal] = useState(false);
   const [activeMenuModal, setActiveMenuModal] = useState<"happy" | "seasonal" | null>(null);
   const [navOpen, setNavOpen] = useState(false);
+  const [activeCommunityImg, setActiveCommunityImg] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveCommunityImg((prev) => (prev + 1) % COMMUNITY_IMAGES.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const loadContent = async () => {
@@ -69,7 +85,13 @@ const Index = () => {
             setHomeContent((prev) => ({
               ...prev,
               ...data,
-              hero: { ...prev.hero, ...data.hero },
+              hero: {
+                ...prev.hero,
+                ...data.hero,
+                paragraph: data.hero?.paragraph?.includes("full bar")
+                  ? data.hero.paragraph
+                  : DEFAULT_HOME_CONTENT.hero!.paragraph,
+              },
               community: { ...prev.community, ...data.community },
             }));
           } else {
@@ -79,7 +101,13 @@ const Index = () => {
               setHomeContent((prev) => ({
                 ...prev,
                 ...data,
-                hero: { ...prev.hero, ...data.hero },
+                hero: {
+                  ...prev.hero,
+                  ...data.hero,
+                  paragraph: data.hero?.paragraph?.includes("full bar")
+                    ? data.hero.paragraph
+                    : DEFAULT_HOME_CONTENT.hero!.paragraph,
+                },
                 community: { ...prev.community, ...data.community },
               }));
             }
@@ -483,27 +511,23 @@ const Index = () => {
           </div>
         </section>
 
-        {/* COMMUNITY SECTION - 3 Photos Grid on Left & Text on Right */}
+        {/* COMMUNITY SECTION - Cross-fading Photos Showcase on Left & Text on Right */}
         <section id="community" className="w-full bg-[#160F0D] py-14 md:py-20 px-6">
           <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-14 items-center">
-            {/* Left Column: 3 Vertical Photos Grid */}
-            <div className="md:col-span-6">
-              <div className="grid grid-cols-3 gap-1.5 md:gap-3">
-                <img
-                  src={cucinaSalad}
-                  alt="Seasonal salad with citrus and burrata"
-                  className="w-full h-64 sm:h-72 md:h-80 object-cover shadow-xl"
-                />
-                <img
-                  src={cucinaWine}
-                  alt="Bottle of wine with a glass"
-                  className="w-full h-64 sm:h-72 md:h-80 object-cover shadow-xl"
-                />
-                <img
-                  src={cucinaPasta}
-                  alt="Spaghetti with tomato sauce"
-                  className="w-full h-64 sm:h-72 md:h-80 object-cover shadow-xl"
-                />
+            {/* Left Column: Smooth Cross-fading Photos Showcase */}
+            <div className="md:col-span-6 flex justify-center">
+              <div className="relative w-full max-w-md md:max-w-none h-80 sm:h-96 md:h-[440px] lg:h-[480px] overflow-hidden rounded-sm shadow-2xl border border-white/10 group">
+                {COMMUNITY_IMAGES.map((img, idx) => (
+                  <img
+                    key={img.src}
+                    src={img.src}
+                    alt={img.alt}
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
+                      idx === activeCommunityImg ? "opacity-100 scale-100" : "opacity-0 scale-105 pointer-events-none"
+                    }`}
+                    style={{ transitionProperty: "opacity, transform", transitionDuration: "1000ms" }}
+                  />
+                ))}
               </div>
             </div>
 

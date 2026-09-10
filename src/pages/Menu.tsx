@@ -20,12 +20,27 @@ const TABS = [
 
 type TabKey = typeof TABS[number]["key"];
 
+const DEFAULT_COCKTAIL_CATEGORIES: MenuCategory[] = [
+  {
+    category: "SIGNATURE CUCINA COCKTAILS",
+    items: [
+      { name: "Cucina Cosmo", description: "st george citrus vodka, aperol, lemon juice", price: "14" },
+      { name: "20/20", description: "marin coastal gin, orgeat, lemon juice, absinthe", price: "15" },
+      { name: "Amaro Sour", description: "averna, bourbon, egg white, lemon juice", price: "15" },
+      { name: "S.S.B.", description: "st. george chile vodka, lillet blanc, grapefruit, lemon", price: "15" },
+      { name: "Honey Do!", description: "tulamore dew honey whiskey, cointreau, lemon, amaro sibona", price: "14" },
+      { name: "Yaa! Calexico", description: "catedral mezcal, gran classico, triple sec, lemon, averna", price: "15" },
+      { name: "Pale Fire", description: "cucina midori, serrano-infused tequila, cointreau, pineapple, lime", price: "15" },
+    ],
+  },
+];
+
 const EMPTY_MENUS: Record<TabKey, { title: string; data: MenuCategory[] }> = {
   specials: { title: "WEEKLY SPECIALS", data: [] },
   dinner: { title: "SEASONAL DINNER MENU", data: [] },
   lunch: { title: "LUNCH & BRUNCH MENU", data: [] },
   happy: { title: "HAPPY HOUR MENU", data: [] },
-  cocktails: { title: "SPECIALTY COCKTAILS", data: [] },
+  cocktails: { title: "SPECIALTY COCKTAILS", data: DEFAULT_COCKTAIL_CATEGORIES },
 };
 
 const MenuPage = () => {
@@ -68,12 +83,17 @@ const MenuPage = () => {
           // Fallback
         }
 
+        const cocktailsData = content.menus?.cocktails;
+        const cocktailCategories = (cocktailsData?.categories && cocktailsData.categories.length > 0)
+          ? cocktailsData.categories
+          : DEFAULT_COCKTAIL_CATEGORIES;
+
         setMenus({
           specials: { title: specialsData?.title || "WEEKLY SPECIALS", data: specialsData?.categories || [] },
           dinner: { title: content.menus?.dinner?.title || "SEASONAL DINNER MENU", data: content.menus?.dinner?.categories || [] },
           lunch: { title: content.menus?.lunch?.title || "LUNCH & BRUNCH MENU", data: content.menus?.lunch?.categories || [] },
           happy: { title: content.menus?.happy?.title || "HAPPY HOUR MENU", data: content.menus?.happy?.categories || [] },
-          cocktails: { title: content.menus?.cocktails?.title || "SPECIALTY COCKTAILS", data: content.menus?.cocktails?.categories || [] },
+          cocktails: { title: cocktailsData?.title || "SPECIALTY COCKTAILS", data: cocktailCategories },
         });
       } catch (error) {
         setLoadError(error instanceof Error ? error.message : "Could not load menu content.");
