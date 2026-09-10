@@ -26,11 +26,40 @@ function getSupabaseClient() {
 function normalizeContent(filePath: string, content: any) {
   if (!content || typeof content !== "object") return content;
   if (filePath.includes("home.json")) {
-    if (content.hero && content.hero.paragraph && !content.hero.paragraph.includes("full bar")) {
-      content.hero.paragraph = content.hero.paragraph.replace(
-        "thoughtfully prepared dishes, and a curated selection",
-        "thoughtfully prepared dishes, full bar, and a curated selection"
-      );
+    if (content.hero && content.hero.paragraph) {
+      if (content.hero.paragraph.includes("full bar")) {
+        content.hero.paragraph = content.hero.paragraph.replace("full bar", "craft cocktails");
+      } else if (!content.hero.paragraph.includes("craft cocktails")) {
+        content.hero.paragraph = content.hero.paragraph.replace(
+          "thoughtfully prepared dishes, and a curated selection",
+          "thoughtfully prepared dishes, craft cocktails, and a curated selection"
+        );
+      }
+    }
+    if (content.community && content.community.paragraph) {
+      if (content.community.paragraph.includes("For more than 27 years")) {
+        content.community.paragraph = content.community.paragraph.replace("For more than 27 years", "Since 1998");
+      } else if (content.community.paragraph.includes("for more than 27 years")) {
+        content.community.paragraph = content.community.paragraph.replace("for more than 27 years", "since 1998");
+      } else if (content.community.paragraph.includes("For 27 years")) {
+        content.community.paragraph = content.community.paragraph.replace("For 27 years", "Since 1998");
+      }
+    }
+    if (content.about && Array.isArray(content.about.paragraphs)) {
+      content.about.paragraphs = content.about.paragraphs.map((p: string) => {
+        let updated = p;
+        if (updated.includes("full bar")) {
+          updated = updated.replace("full bar", "craft cocktails");
+        }
+        if (updated.includes("for more than 27 years")) {
+          updated = updated.replace("for more than 27 years", "since 1998");
+        } else if (updated.includes("For more than 27 years")) {
+          updated = updated.replace("For more than 27 years", "Since 1998");
+        } else if (updated.includes("for 27 years")) {
+          updated = updated.replace("for 27 years", "since 1998");
+        }
+        return updated;
+      });
     }
   }
   return content;

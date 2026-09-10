@@ -7,9 +7,9 @@ const cucinaIllustration = "/assets/cucina-illustration-transparent.png";
 
 const DEFAULT_STORY_PARAGRAPHS = [
   "At Cucina, modern Italian cuisine meets the freshness and abundance of California's seasonal ingredients.",
-  "Our menu brings together Italian inspiration, thoughtfully prepared dishes, full bar, and a curated selection of Italian and California wines—all served in a warm, vibrant setting in the heart of San Anselmo.",
+  "Our menu brings together Italian inspiration, thoughtfully prepared dishes, craft cocktails, and a curated selection of Italian and California wines—all served in a warm, vibrant setting in the heart of San Anselmo.",
   "Whether you're joining us for a casual dinner, a celebration with family and friends, or an evening over great food and wine, we're committed to creating an experience that is welcoming, memorable, and worth returning for.",
-  "Proudly woman-owned and operated, Cucina has been serving the Marin community for more than 27 years while continuing to evolve with the seasons, our community, and a passion for exceptional hospitality.",
+  "Proudly woman-owned and operated, Cucina has been serving the Marin community since 1998 while continuing to evolve with the seasons, our community, and a passion for exceptional hospitality.",
 ];
 
 const Story = () => {
@@ -38,14 +38,28 @@ const Story = () => {
 
         if (data?.about?.paragraphs && data.about.paragraphs.length > 0) {
           setParagraphs(
-            data.about.paragraphs.map((p) =>
-              p.includes("curated selection of Italian and California wines") && !p.includes("full bar")
-                ? p.replace(
-                    "thoughtfully prepared dishes, and a curated selection",
-                    "thoughtfully prepared dishes, full bar, and a curated selection"
-                  )
-                : p
-            )
+            data.about.paragraphs.map((p) => {
+              let updated = p;
+              if (updated.includes("full bar")) {
+                updated = updated.replace("full bar", "craft cocktails");
+              } else if (
+                updated.includes("curated selection of Italian and California wines") &&
+                !updated.includes("craft cocktails")
+              ) {
+                updated = updated.replace(
+                  "thoughtfully prepared dishes, and a curated selection",
+                  "thoughtfully prepared dishes, craft cocktails, and a curated selection"
+                );
+              }
+              if (updated.includes("for more than 27 years")) {
+                updated = updated.replace("for more than 27 years", "since 1998");
+              } else if (updated.includes("For more than 27 years")) {
+                updated = updated.replace("For more than 27 years", "Since 1998");
+              } else if (updated.includes("for 27 years")) {
+                updated = updated.replace("for 27 years", "since 1998");
+              }
+              return updated;
+            })
           );
         }
       } catch {

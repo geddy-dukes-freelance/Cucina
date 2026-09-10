@@ -54,11 +54,11 @@ values
   "hero": {
     "headline": "At Cucina, modern Italian cuisine meets the freshness and abundance of California's seasonal ingredients.",
     "scriptSubtitle": "Italian at heart: San Anselmo through and through.",
-    "paragraph": "Our menu brings together Italian inspiration, thoughtfully prepared dishes, full bar, and a curated selection of Italian and California wines—all served in a warm, vibrant setting in the heart of San Anselmo."
+    "paragraph": "Our menu brings together Italian inspiration, thoughtfully prepared dishes, craft cocktails, and a curated selection of Italian and California wines—all served in a warm, vibrant setting in the heart of San Anselmo."
   },
   "community": {
     "heading": "IN SAN ANSELMO SINCE 1998",
-    "paragraph": "For more than 27 years, Cucina has been a neighborhood gathering place for celebrations big and small. From weeknight dinners to birthday toasts, we're grateful to grow with the community we call home."
+    "paragraph": "Since 1998, Cucina has been a neighborhood gathering place for celebrations big and small. From weeknight dinners to birthday toasts, we're grateful to grow with the community we call home."
   },
   "signoff": "See you in San Anselmo"
 }

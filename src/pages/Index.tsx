@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, MapPin, Clock, Phone, Instagram } from "lucide-react";
+import { Menu, X, MapPin, Clock, Phone, Instagram, Mail } from "lucide-react";
 
 import Footer from "@/components/Footer";
 import MenuCategoryList from "@/components/MenuCategoryList";
@@ -33,11 +33,11 @@ const DEFAULT_HOME_CONTENT: HomeContent = {
   hero: {
     headline: "At Cucina, modern Italian cuisine meets the freshness and abundance of California's seasonal ingredients.",
     scriptSubtitle: "Italian at heart:\nSan Anselmo through and through.",
-    paragraph: "Our menu brings together Italian inspiration, thoughtfully prepared dishes, full bar, and a curated selection of Italian and California wines—all served in a warm, vibrant setting in the heart of San Anselmo.",
+    paragraph: "Our menu brings together Italian inspiration, thoughtfully prepared dishes, craft cocktails, and a curated selection of Italian and California wines—all served in a warm, vibrant setting in the heart of San Anselmo.",
   },
   community: {
     heading: "IN SAN ANSELMO SINCE 1998",
-    paragraph: "For more than 27 years, Cucina has been a neighborhood gathering place for celebrations big and small. From weeknight dinners to birthday toasts, we're grateful to grow with the community we call home.",
+    paragraph: "Since 1998, Cucina has been a neighborhood gathering place for celebrations big and small. From weeknight dinners to birthday toasts, we're grateful to grow with the community we call home.",
   },
   signoff: "See you in San Anselmo",
 };
@@ -88,7 +88,7 @@ const Index = () => {
               hero: {
                 ...prev.hero,
                 ...data.hero,
-                paragraph: data.hero?.paragraph?.includes("full bar")
+                paragraph: data.hero?.paragraph?.includes("craft cocktails")
                   ? data.hero.paragraph
                   : DEFAULT_HOME_CONTENT.hero!.paragraph,
               },
@@ -104,7 +104,7 @@ const Index = () => {
                 hero: {
                   ...prev.hero,
                   ...data.hero,
-                  paragraph: data.hero?.paragraph?.includes("full bar")
+                  paragraph: data.hero?.paragraph?.includes("craft cocktails")
                     ? data.hero.paragraph
                     : DEFAULT_HOME_CONTENT.hero!.paragraph,
                 },
@@ -319,6 +319,21 @@ const Index = () => {
                     className="font-sans text-sm text-white/90 hover:text-[#EDE4D7] transition-colors"
                   >
                     @cucina_sa
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <Mail className="w-5 h-5 text-[#EDE4D7] shrink-0 mt-1" />
+                <div>
+                  <h4 className="font-display text-xs tracking-widest text-[#EDE4D7] uppercase mb-1">
+                    For large group reservations
+                  </h4>
+                  <a
+                    href="mailto:dseymour322@icloud.com"
+                    className="font-sans text-sm text-white/90 hover:text-[#EDE4D7] transition-colors underline decoration-[#F5C86C]/40 underline-offset-4"
+                  >
+                    dseymour322@icloud.com
                   </a>
                 </div>
               </div>
