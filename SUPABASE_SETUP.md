@@ -54,3 +54,10 @@ To ensure your free-tier Supabase project never pauses after 7 days of inactivit
 1. **Vercel Cron (`vercel.json`)**: Automatically triggers `GET /api/ping` every day at 12:00 UTC.
 2. **GitHub Actions (`.github/workflows/supabase-keepalive.yml`)**: An automated background workflow that runs every 3 days to page the database.
 3. **Dedicated API Endpoint (`/api/ping`)**: Executes a lightweight query against `site_content` and returns an active heartbeat status. You can also point any free external uptime monitor (such as [UptimeRobot](https://uptimerobot.com) or [cron-job.org](https://cron-job.org)) at `https://cucina-sa.com/api/ping`.
+
+---
+
+## 5. Deployment Verification
+Once deployed on Vercel:
+- Visit `/api/ping` on your live domain (e.g. `https://your-domain.com/api/ping`) to verify the database responds with `{"status": "active"}`.
+- Visit `/portal` to edit any menu or popup announcement; updates will save directly to Supabase.
